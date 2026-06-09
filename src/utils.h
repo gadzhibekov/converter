@@ -6,7 +6,7 @@
 #include <QString>
 #include <QDir>
 
-static int version = 5;
+static int version = 6;
 static QString UpdatedDataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/LatexMarkdownConverterData";
 
 bool CopyDirectoryToAppDir(const QString& sourceDirPath);

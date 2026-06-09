@@ -23,6 +23,9 @@ set(SOURCES
     src/main_window.cpp
     src/label.cpp
     src/button.cpp
+    src/text_editor.cpp
+    src/save_dir_window.cpp
+    src/line_edit.cpp
 )
 
 set(HEADERS
@@ -31,6 +34,9 @@ set(HEADERS
     src/main_window.h
     src/label.h
     src/button.h
+    src/text_editor.h
+    src/save_dir_window.h
+    src/line_edit.h
 )
 
 add_executable(${PROJECT_NAME}

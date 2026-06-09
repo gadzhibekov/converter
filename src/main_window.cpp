@@ -3,6 +3,8 @@
 
 #include <QMessageBox>
 
+std::vector<QString> MainWindow::convertData;
+
 MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net)
 {
     centralWidget           = new QWidget(this);
@@ -27,13 +29,11 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     startConvertIcon->SetText("3");
     versionLabel->SetText("v 1." + QString::number(version));
 
-
     title->SetTextSize(40);
     editSourceTextIcon->SetTextSize(30);
     editSaveDirIcon->SetTextSize(30);
     startConvertIcon->SetTextSize(30);
     versionLabel->SetTextSize(18);
-
 
     title->SetGeometry(0, 0, 1200, 250);
     editSourceTextIcon->SetGeometry(250, 195, 100, 100);
@@ -56,7 +56,18 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     startConvertButton->SetGeometry(800, 295, 200, 50);
     updateButton->SetGeometry(5, 600 - 30, 100, 25);
 
-    this->ShowWindow();
+    textEditor              = new TextEditor();
+    saveDirWindow           = new SaveDirWindow();
+
+    MainWindow::convertData.resize(3);
+
+    ShowWindow();
+}
+
+MainWindow::~MainWindow()
+{
+    delete textEditor;
+    delete saveDirWindow;
 }
 
 void MainWindow::Update()
@@ -102,17 +113,17 @@ void MainWindow::Update()
 
 void MainWindow::OpenSourceTextEditor()
 {
-    QMessageBox::information(nullptr, "", "Тут будет редакотор текста");
+    textEditor->Show();
 }
 
 void MainWindow::OpenSaveDirEditor()
 {
-    QMessageBox::information(nullptr, "", "Тут будет окно чтоб указать путь для сохранения результов");
+    saveDirWindow->Show();
 }
 
 void MainWindow::StartConvert()
 {
-    QMessageBox::information(nullptr, "", "Кнопка Старт");
+    QMessageBox::information(nullptr, "", MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".pdf\n\n" + MainWindow::convertData[2]);
 }
 
 void MainWindow::SetSized(int w, int h)

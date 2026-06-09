@@ -7,7 +7,6 @@ Server::Server(boost::asio::io_context& io_context, short port,
     , acceptor_(io_context, tcp::endpoint(tcp::v4(), port))
     , update_data_dir_(update_data_dir)
 {
-    // Создаем директорию с обновлениями, если её нет
     fs::create_directories(update_data_dir_);
     
     std::cout << "Server started on port " << port << std::endl;
@@ -31,7 +30,6 @@ void Server::StartAccept()
                 std::cout << "New client connected from: " 
                          << socket->remote_endpoint() << std::endl;
                 
-                // Запускаем обработку клиента в отдельном потоке
                 std::thread(&Server::HandleClient, this, socket).detach();
             }
             else
@@ -39,7 +37,6 @@ void Server::StartAccept()
                 std::cerr << "Accept error: " << error.message() << std::endl;
             }
             
-            // Продолжаем принимать новых клиентов
             StartAccept();
         });
 }
@@ -48,12 +45,10 @@ void Server::HandleClient(std::shared_ptr<tcp::socket> socket)
 {
     try
     {
-        // Обрабатываем запросы в цикле пока соединение открыто
         while (true)
         {
             std::string request;
             
-            // Получаем запрос от клиента
             if (!ReceiveRequest(socket, request))
             {
                 std::cerr << "Failed to receive request or connection closed" << std::endl;
@@ -130,7 +125,6 @@ bool Server::ReceiveRequest(std::shared_ptr<tcp::socket> socket, std::string& re
     {
         boost::system::error_code ec;
         
-        // Получаем размер запроса
         uint32_t request_size = 0;
         boost::asio::read(*socket, boost::asio::buffer(&request_size, sizeof(request_size)), ec);
         
@@ -140,7 +134,6 @@ bool Server::ReceiveRequest(std::shared_ptr<tcp::socket> socket, std::string& re
             return false;
         }
         
-        // Получаем сам запрос
         std::vector<char> buffer(request_size);
         boost::asio::read(*socket, boost::asio::buffer(buffer, request_size), ec);
         
@@ -167,7 +160,6 @@ bool Server::SendFileList(std::shared_ptr<tcp::socket> socket,
     {
         boost::system::error_code ec;
         
-        // Отправляем количество файлов
         uint32_t file_count = files.size();
         boost::asio::write(*socket, boost::asio::buffer(&file_count, sizeof(file_count)), ec);
         
@@ -177,10 +169,8 @@ bool Server::SendFileList(std::shared_ptr<tcp::socket> socket,
             return false;
         }
         
-        // Отправляем имена файлов
         for (const auto& filename : files)
         {
-            // Отправляем длину имени файла
             uint32_t name_length = filename.size();
             boost::asio::write(*socket, boost::asio::buffer(&name_length, sizeof(name_length)), ec);
             
@@ -190,7 +180,6 @@ bool Server::SendFileList(std::shared_ptr<tcp::socket> socket,
                 return false;
             }
             
-            // Отправляем имя файла
             boost::asio::write(*socket, boost::asio::buffer(filename), ec);
             
             if (ec)
@@ -217,17 +206,14 @@ bool Server::SendFile(std::shared_ptr<tcp::socket> socket, const std::string& fi
         
         fs::path file_path = fs::path(update_data_dir_) / filename;
         
-        // Проверяем существование файла
         if (!fs::exists(file_path))
         {
             std::cerr << "SendFile: File not found: " << file_path << std::endl;
             return false;
         }
         
-        // Получаем размер файла
         uint64_t file_size = fs::file_size(file_path);
         
-        // Отправляем размер файла
         boost::asio::write(*socket, boost::asio::buffer(&file_size, sizeof(file_size)), ec);
         
         if (ec)
@@ -236,7 +222,6 @@ bool Server::SendFile(std::shared_ptr<tcp::socket> socket, const std::string& fi
             return false;
         }
         
-        // Открываем файл для чтения
         std::ifstream input_file(file_path, std::ios::binary);
         if (!input_file.is_open())
         {
@@ -244,8 +229,7 @@ bool Server::SendFile(std::shared_ptr<tcp::socket> socket, const std::string& fi
             return false;
         }
         
-        // Отправляем файл чанками
-        const size_t chunk_size = 8192; // 8KB chunks
+        const size_t chunk_size = 8192;
         std::vector<char> buffer(chunk_size);
         
         while (input_file.read(buffer.data(), chunk_size) || input_file.gcount() > 0)
@@ -284,12 +268,10 @@ std::vector<std::string> Server::GetUpdateFiles()
     
     try
     {
-        // Рекурсивно обходим директорию с обновлениями
         for (const auto& entry : fs::recursive_directory_iterator(update_data_dir_))
         {
             if (fs::is_regular_file(entry.path()))
             {
-                // Получаем относительный путь
                 fs::path relative_path = fs::relative(entry.path(), update_data_dir_);
                 files.push_back(relative_path.string());
             }
@@ -307,10 +289,8 @@ void Server::HandleVersionRequest(std::shared_ptr<tcp::socket> socket)
 {
     try
     {
-        // Путь к файлу version.txt
         std::string versionFilePath = update_data_dir_ + "/version.txt";
         
-        // Открываем файл
         std::ifstream file(versionFilePath);
         if (!file.is_open())
         {
@@ -318,18 +298,15 @@ void Server::HandleVersionRequest(std::shared_ptr<tcp::socket> socket)
             return;
         }
         
-        // Читаем содержимое файла
         std::string version;
         std::getline(file, version);
         file.close();
         
-        // Убираем пробелы в начале и конце
         version.erase(0, version.find_first_not_of(" \t\r\n"));
         version.erase(version.find_last_not_of(" \t\r\n") + 1);
         
         std::cout << "Sending version: " << version << std::endl;
         
-        // Отправляем размер данных
         uint32_t dataSize = version.size();
         
         boost::system::error_code ec;
@@ -341,7 +318,6 @@ void Server::HandleVersionRequest(std::shared_ptr<tcp::socket> socket)
             return;
         }
         
-        // Отправляем данные
         boost::asio::write(*socket, boost::asio::buffer(version.data(), dataSize), ec);
         
         if (ec)
@@ -365,7 +341,6 @@ int main(int argc, char* argv[])
         short port = 12345;
         std::string update_dir = "../update_data";
         
-        // Обработка аргументов командной строки
         if (argc > 1)
         {
             port = static_cast<short>(std::atoi(argv[1]));
@@ -384,7 +359,6 @@ int main(int argc, char* argv[])
         Server server(io_context, port, update_dir);
         server.Start();
         
-        // Запускаем io_context в нескольких потоках
         std::vector<std::thread> threads;
         unsigned int thread_count = std::thread::hardware_concurrency();
         if (thread_count == 0) thread_count = 2;
@@ -397,7 +371,6 @@ int main(int argc, char* argv[])
             });
         }
         
-        // Ждем завершения потоков
         for (auto& thread : threads)
         {
             thread.join();
