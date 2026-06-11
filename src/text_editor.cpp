@@ -6,7 +6,7 @@
 
 TextEditor::TextEditor()
 {
-    this->setGeometry(0, 0, 800, 800);
+    this->setFixedSize(800, 800);
     this->setWindowTitle("Source Text Editor");
 
     textEditor      = new QTextEdit(this);

@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
 {
     centralWidget           = new QWidget(this);
     this->setCentralWidget(centralWidget);
-    this->SetSized(1200, 600);
+    this->setFixedSize(1200, 600);
     this->setWindowTitle("LaTeX Converter by Gadzhibekov");
 
     title                   = new Label(centralWidget);
@@ -17,44 +17,53 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     editSaveDirIcon         = new Label(centralWidget);
     startConvertIcon        = new Label(centralWidget);
     versionLabel            = new Label(centralWidget);
+    informationLabel        = new Label(centralWidget);
     
     title->SetTextToCenter();
     editSourceTextIcon->SetTextToCenter();
     editSaveDirIcon->SetTextToCenter();
     startConvertIcon->SetTextToCenter();
+    informationLabel->SetTextToCenter();
 
     title->SetText("LaTeX Converter");
     editSourceTextIcon->SetText("1");
     editSaveDirIcon->SetText("2");
     startConvertIcon->SetText("3");
     versionLabel->SetText("v 1." + QString::number(version));
+    informationLabel->SetText((QString)"Перед началом убедитесь, что у вас скачана утилита pandoc и его модули.\nСкачать их можно введя соответствующую команду в bash для дистрибутивов основанных на Ubuntu."
+        + (QString)"\nКоманду можно скопировать в буфер обмена нажав на кнопку 'Скопировть' ниже.");
 
     title->SetTextSize(40);
     editSourceTextIcon->SetTextSize(30);
     editSaveDirIcon->SetTextSize(30);
     startConvertIcon->SetTextSize(30);
     versionLabel->SetTextSize(18);
+    informationLabel->SetTextSize(13);
 
     title->SetGeometry(0, 0, 1200, 250);
     editSourceTextIcon->SetGeometry(250, 195, 100, 100);
     editSaveDirIcon->SetGeometry(550, 195, 100, 100);
     startConvertIcon->SetGeometry(850, 195, 100, 100);
     versionLabel->SetGeometry(1200 - 70, 600 - 30, 65, 25);
+    informationLabel->SetGeometry(150, 600 - 250, 900, 200);
 
     editSourceTextButton    = new Button(centralWidget, [this](){OpenSourceTextEditor();});
     editSaveDirButton       = new Button(centralWidget, [this](){OpenSaveDirEditor();});
     startConvertButton      = new Button(centralWidget, [this](){StartConvert();});
     updateButton            = new Button(centralWidget, [this](){Update();});
+    copyCommandButton       = new Button(centralWidget, [this](){CopyCommand();});
 
-    editSourceTextButton->SetText("Source text");
-    editSaveDirButton->SetText("Save dir");
-    startConvertButton->SetText("Start convert");
-    updateButton->SetText("Update");
+    editSourceTextButton->SetText("Исходный текст");
+    editSaveDirButton->SetText("Сохранить как");
+    startConvertButton->SetText("Сконвертировать");
+    updateButton->SetText("Обновить");
+    copyCommandButton->SetText("Скопировть");
 
     editSourceTextButton->SetGeometry(200, 295, 200, 50);
     editSaveDirButton->SetGeometry(500, 295, 200, 50);
     startConvertButton->SetGeometry(800, 295, 200, 50);
     updateButton->SetGeometry(5, 600 - 30, 100, 25);
+    copyCommandButton->SetGeometry(110, 600 - 30, 100, 25);
 
     textEditor              = new TextEditor();
     saveDirWindow           = new SaveDirWindow();
@@ -76,17 +85,17 @@ void MainWindow::Update()
     {
         if (version != ConverQstrToInt(net.RequestVersion()))
         {
-            CreateUpdatedDataDir();
+            CreateDir(converterDataDir);
 
-            if (net.RequestUpdates(UpdatedDataDir.toStdString()))
+            if (net.RequestUpdates(converterDataDir.toStdString()))
             {
-                if (!CopyDirectoryToAppDir(UpdatedDataDir))
+                if (!CopyDirectoryToAppDir(converterDataDir))
                 {
                     QMessageBox::critical(nullptr, "Ошибка", "Не удалсось сделать замену файлов");
                 }
                 else
                 {
-                    QString updatedVersion = "1." + ReadAllFile(UpdatedDataDir + "/version.txt");
+                    QString updatedVersion = "1." + ReadAllFile(converterDataDir + "/version.txt");
 
                     QMessageBox::information(nullptr, "Работа с обновлениями", 
                         "Программа обновлена до версии " + updatedVersion + "\n\nПерезагрузите программу");
@@ -94,10 +103,10 @@ void MainWindow::Update()
             }
             else
             {
-                QMessageBox::critical(nullptr, "Ошибка", "Не удалсось скчать обновление");
+                QMessageBox::critical(nullptr, "Ошибка", "Не удалсось скачать обновление");
             }
 
-            RemoveUpdatedDataDir();
+            RemoveDir(converterDataDir);
             net.Disconnect();
         }
         else
@@ -123,12 +132,7 @@ void MainWindow::OpenSaveDirEditor()
 
 void MainWindow::StartConvert()
 {
-    QMessageBox::information(nullptr, "", MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".pdf\n\n" + MainWindow::convertData[2]);
-}
-
-void MainWindow::SetSized(int w, int h)
-{
-    this->setFixedSize(w, h);
+    ConvertLatexToPdf();
 }
 
 void MainWindow::SetTitle(const QString& title)
@@ -139,4 +143,9 @@ void MainWindow::SetTitle(const QString& title)
 void MainWindow::ShowWindow()
 {
     this->show();
+}
+
+void MainWindow::CopyCommand()
+{
+    ToClipboard("sudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex fonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y");
 }

@@ -8,7 +8,7 @@ static std::vector<QString> convertData;
 
 SaveDirWindow::SaveDirWindow()
 {
-    this->setGeometry(0, 0, 400, 200);
+    this->setFixedSize(400, 200);
     this->setWindowTitle("Save Dir Window");
 
     saveDir         = new LineEdit(this);

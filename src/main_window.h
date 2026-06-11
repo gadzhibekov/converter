@@ -20,7 +20,6 @@ public:
     MainWindow(QWidget* parent, Net& net);
     ~MainWindow();
 
-    void SetSized(int w, int h);
     void SetTitle(const QString& title);
     void ShowWindow();
 
@@ -32,6 +31,7 @@ private:
     void OpenSourceTextEditor();
     void OpenSaveDirEditor();
     void StartConvert();
+    void CopyCommand();
 
 private:
     QWidget*                    centralWidget;
@@ -40,10 +40,12 @@ private:
     Label*                      editSaveDirIcon;
     Label*                      startConvertIcon;
     Label*                      versionLabel;
+    Label*                      informationLabel;
     Button*                     editSourceTextButton;
     Button*                     editSaveDirButton;
     Button*                     startConvertButton;
     Button*                     updateButton;
+    Button*                     copyCommandButton;
     Net&                        net;
     TextEditor*                 textEditor;
     SaveDirWindow*              saveDirWindow;
