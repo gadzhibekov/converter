@@ -2,6 +2,10 @@
 #include "utils.h"
 
 #include <QMessageBox>
+#include <QDebug>
+#include <QPushButton>
+#include <QCoreApplication>
+#include <QProcess>
 
 std::vector<QString> MainWindow::convertData;
 
@@ -10,7 +14,7 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     centralWidget           = new QWidget(this);
     this->setCentralWidget(centralWidget);
     this->setFixedSize(1200, 600);
-    this->setWindowTitle("LaTeX Converter by Gadzhibekov");
+    this->setWindowTitle("LaTeX & MarkDown Converter by Gadzhibekov");
 
     title                   = new Label(centralWidget);
     editSourceTextIcon      = new Label(centralWidget);
@@ -25,13 +29,13 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     startConvertIcon->SetTextToCenter();
     informationLabel->SetTextToCenter();
 
-    title->SetText("LaTeX Converter");
+    title->SetText("LaTeX & MarkDown Converter");
     editSourceTextIcon->SetText("1");
     editSaveDirIcon->SetText("2");
     startConvertIcon->SetText("3");
-    versionLabel->SetText("v 1." + QString::number(version));
+    versionLabel->SetText("v " + QString::number(ConvertToDecimal(version)));
     informationLabel->SetText((QString)"Перед началом убедитесь, что у вас скачана утилита pandoc и его модули.\nСкачать их можно введя соответствующую команду в bash для дистрибутивов основанных на Ubuntu."
-        + (QString)"\nКоманду можно скопировать в буфер обмена нажав на кнопку 'Скопировть' ниже.");
+        + (QString)"\nКоманду можно скопировать в буфер обмена нажав на кнопку 'Скопировать' ниже.");
 
     title->SetTextSize(40);
     editSourceTextIcon->SetTextSize(30);
@@ -57,7 +61,7 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     editSaveDirButton->SetText("Сохранить как");
     startConvertButton->SetText("Сконвертировать");
     updateButton->SetText("Обновить");
-    copyCommandButton->SetText("Скопировть");
+    copyCommandButton->SetText("Скопировать");
 
     editSourceTextButton->SetGeometry(200, 295, 200, 50);
     editSaveDirButton->SetGeometry(500, 295, 200, 50);
@@ -95,10 +99,41 @@ void MainWindow::Update()
                 }
                 else
                 {
-                    QString updatedVersion = "1." + ReadAllFile(converterDataDir + "/version.txt");
+                    QMessageBox msgBox;
+                    msgBox.setWindowTitle("Работа с обновлениями");
 
-                    QMessageBox::information(nullptr, "Работа с обновлениями", 
-                        "Программа обновлена до версии " + updatedVersion + "\n\nПерезагрузите программу");
+
+                    msgBox.setText("Программа обновлена до версии " + 
+                                QString::number(ConvertToDecimal(ReadAllFile(converterDataDir + "/version.txt").toInt())) + 
+                                "\n\n" + 
+                                ReadAllFile(converterDataDir + "/information.txt")
+                                + ". Изменения вступят в силу после перезагрузки");
+
+
+                    msgBox.setIcon(QMessageBox::Information);
+
+                    QPushButton *restartButton = msgBox.addButton("Перезагрузить", QMessageBox::AcceptRole);
+
+                    msgBox.exec();
+
+                    if (msgBox.clickedButton() == restartButton)
+                    {
+                        QString appDirPath = QCoreApplication::applicationDirPath();
+                        QString appImagePath = qEnvironmentVariable("APPIMAGE");
+                        
+                        if (!appImagePath.isEmpty())
+                        {
+                            QFileInfo appImageInfo(appImagePath);
+                            appDirPath = appImageInfo.absolutePath();
+                            qDebug() << "Running from AppImage, using path:" << appDirPath;
+                        }
+
+                        
+                        QProcess::startDetached("sh", QStringList() << "-c" 
+                            << QString("chmod a+x \"%1\" && \"%1\"").arg(appImagePath));
+                        
+                        qApp->quit();
+                    }
                 }
             }
             else
@@ -132,7 +167,18 @@ void MainWindow::OpenSaveDirEditor()
 
 void MainWindow::StartConvert()
 {
-    ConvertLatexToPdf();
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Выберите формат");
+    msgBox.setText("В каком формате вы хотите создать документ ?");
+    msgBox.setIcon(QMessageBox::Question);
+
+    QPushButton *latexButton = msgBox.addButton("LaTeX", QMessageBox::AcceptRole);
+    QPushButton *markdownButton = msgBox.addButton("MarkDown", QMessageBox::AcceptRole);
+
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == latexButton)          ConvertLatexToPdf();
+    else if (msgBox.clickedButton() == markdownButton)  ConvertMarkdownToPdf();
 }
 
 void MainWindow::SetTitle(const QString& title)

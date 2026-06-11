@@ -12,6 +12,7 @@
 #include <QClipboard>
 
 #include <iostream>
+#include <string>
 
 void CreateDir(const QString& directory)
 {
@@ -149,6 +150,49 @@ void ConvertLatexToPdf()
     }
 }
 
+void ConvertMarkdownToPdf()
+{
+    CreateDir(converterDataDir);
+
+    QFile file(converterDataDir + "/" + MainWindow::convertData[0] + ".md");
+
+    if (file.open(QIODevice::WriteOnly))
+    {
+        file.write(MainWindow::convertData[2].toUtf8());
+        file.close();
+    }
+    else
+    {
+        QMessageBox::critical(nullptr, "Ошибка", "Не удалось создать временный файл для записи");
+        RemoveDir(converterDataDir);
+        return;
+    }
+
+    QString inputFile = converterDataDir + "/" + MainWindow::convertData[0] + ".md";
+    QString outputFile = MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".pdf";
+    
+    QString command = QString("pandoc \"%1\" -o \"%2\" --pdf-engine=xelatex -V mainfont=\"DejaVu Serif\"")
+                     .arg(inputFile)
+                     .arg(outputFile);
+
+    int convertResult = std::system(command.toUtf8().constData());
+
+    RemoveDir(converterDataDir);
+
+    if(convertResult)
+    {
+        QMessageBox::critical(nullptr, "Результат конвертации", "Что-то пошло не так:\n"
+                                        "Убедитесь что у вас установлена утилита pandoc\n\n"
+                                        "Установка:\n"
+                                        "sudo apt install pandoc");
+    }
+    else
+    {
+        QMessageBox::information(nullptr, "Результат конвертации", "Успешно. Создан файл:\n-" 
+                                        + outputFile);
+    }
+}
+
 void ToClipboard(const QString& data)
 {
     QApplication::clipboard()->setText(data);
@@ -157,4 +201,17 @@ void ToClipboard(const QString& data)
 QString FromClipboard()
 {
     return QApplication::clipboard()->text();
+}
+
+double ConvertToDecimal(int number)
+{
+    int digits = 0;
+    int temp = number;
+    while (temp > 0)
+    {
+        temp /= 10;
+        digits++;
+    }
+    
+    return number / std::pow(10.0, digits - 1);
 }
