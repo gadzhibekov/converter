@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     centralWidget           = new QWidget(this);
     this->setCentralWidget(centralWidget);
     this->setFixedSize(1200, 600);
-    this->setWindowTitle("LaTeX & MarkDown Converter by Gadzhibekov");
+    this->setWindowTitle("LaTeX & MarkDown Конвертер");
 
     title                   = new Label(centralWidget);
     editSourceTextIcon      = new Label(centralWidget);
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     startConvertIcon->SetTextToCenter();
     informationLabel->SetTextToCenter();
 
-    title->SetText("LaTeX & MarkDown Converter");
+    title->SetText("LaTeX & MarkDown Конвертер");
     editSourceTextIcon->SetText("1");
     editSaveDirIcon->SetText("2");
     startConvertIcon->SetText("3");
@@ -54,23 +54,24 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     editSourceTextButton    = new Button(centralWidget, [this](){OpenSourceTextEditor();});
     editSaveDirButton       = new Button(centralWidget, [this](){OpenSaveDirEditor();});
     startConvertButton      = new Button(centralWidget, [this](){StartConvert();});
-    updateButton            = new Button(centralWidget, [this](){Update();});
+    settingsButton          = new Button(centralWidget, [this](){OpenSettingsWindow();});
     copyCommandButton       = new Button(centralWidget, [this](){CopyCommand();});
 
     editSourceTextButton->SetText("Исходный текст");
     editSaveDirButton->SetText("Сохранить как");
     startConvertButton->SetText("Сконвертировать");
-    updateButton->SetText("Обновить");
+    settingsButton->SetText("S");
     copyCommandButton->SetText("Скопировать");
 
     editSourceTextButton->SetGeometry(200, 295, 200, 50);
     editSaveDirButton->SetGeometry(500, 295, 200, 50);
     startConvertButton->SetGeometry(800, 295, 200, 50);
-    updateButton->SetGeometry(5, 600 - 30, 100, 25);
+    settingsButton->SetGeometry(5, 600 - 40, 35, 35);
     copyCommandButton->SetGeometry(110, 600 - 30, 100, 25);
 
     textEditor              = new TextEditor();
     saveDirWindow           = new SaveDirWindow();
+    settingsWindow          = new SettingsWindow();
 
     MainWindow::convertData.resize(3);
 
@@ -81,6 +82,7 @@ MainWindow::~MainWindow()
 {
     delete textEditor;
     delete saveDirWindow;
+    delete settingsWindow;
 }
 
 void MainWindow::Update()
@@ -194,4 +196,9 @@ void MainWindow::ShowWindow()
 void MainWindow::CopyCommand()
 {
     ToClipboard("sudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex fonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y");
+}
+
+void MainWindow::OpenSettingsWindow()
+{
+    settingsWindow->show();
 }

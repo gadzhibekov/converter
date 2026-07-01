@@ -13,6 +13,7 @@
 #include "net.h"
 #include "text_editor.h"
 #include "save_dir_window.h"
+#include "settings_window.h"
 
 class MainWindow : public QMainWindow
 {
@@ -32,6 +33,7 @@ private:
     void OpenSaveDirEditor();
     void StartConvert();
     void CopyCommand();
+    void OpenSettingsWindow();
 
 private:
     QWidget*                    centralWidget;
@@ -44,11 +46,12 @@ private:
     Button*                     editSourceTextButton;
     Button*                     editSaveDirButton;
     Button*                     startConvertButton;
-    Button*                     updateButton;
+    Button*                     settingsButton;
     Button*                     copyCommandButton;
     Net&                        net;
     TextEditor*                 textEditor;
     SaveDirWindow*              saveDirWindow;
+    SettingsWindow*             settingsWindow;
 };
 
 #endif // MAIN_WINDOW_H

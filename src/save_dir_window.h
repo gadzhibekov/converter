@@ -22,10 +22,10 @@ private:
     void    ChooseDir();
 
 private:
-    LineEdit*   saveDir;
-    LineEdit*   fileName;
-    Label*      saveInfoText;
-    Button*     chooseDir;
+    LineEdit*       saveDir;
+    LineEdit*       fileName;
+    Label*          saveInfoText;
+    Button*         chooseDir;
 };
 
 #endif // SAVE_DIR_WINDOW_H

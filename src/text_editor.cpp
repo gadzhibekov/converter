@@ -7,7 +7,7 @@
 TextEditor::TextEditor()
 {
     this->setFixedSize(800, 800);
-    this->setWindowTitle("Source Text Editor");
+    this->setWindowTitle("Редактор исходного кода");
 
     textEditor      = new QTextEdit(this);
     back            = new Button(this, [this](){Back();});

@@ -9,7 +9,7 @@ static std::vector<QString> convertData;
 SaveDirWindow::SaveDirWindow()
 {
     this->setFixedSize(400, 200);
-    this->setWindowTitle("Save Dir Window");
+    this->setWindowTitle("Параметры для сохранения");
 
     saveDir         = new LineEdit(this);
     fileName        = new LineEdit(this);

@@ -26,6 +26,8 @@ set(SOURCES
     src/text_editor.cpp
     src/save_dir_window.cpp
     src/line_edit.cpp
+    src/settings_window.cpp
+    src/settings_window_items.cpp
 )
 
 set(HEADERS
@@ -37,6 +39,8 @@ set(HEADERS
     src/text_editor.h
     src/save_dir_window.h
     src/line_edit.h
+    src/settings_window.h
+    src/settings_window_items.h
 )
 
 add_executable(${PROJECT_NAME}

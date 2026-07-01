@@ -1,0 +1,43 @@
+#pragma once
+#ifndef SETTINGS_WINDOW_H
+#define SETTINGS_WINDOW_H
+
+#include <QWidget>
+
+#include "button.h"
+#include "settings_window_items.h"
+
+class SettingsWindow;
+class SettingsWindowPanel;
+
+class SettingsWindow : public QWidget
+{
+public:
+    SettingsWindow();
+    friend class SettingsWindowPanel;
+
+private:
+    SettingsWindowPanel*            panel;
+    SettingsWindowItemInformation*  swii;
+    SettingsWindowItemUpdate*       swiu;
+    SettingsWindowItemLicense*      swil;
+};
+
+class SettingsWindowPanel : public QWidget
+{
+public:
+    explicit SettingsWindowPanel(QWidget* parent);
+
+private:
+    void    ShowInformationItem();
+    void    ShowUpdateItem();
+    void    ShowLicenseItem();
+
+private:
+    Button*         informationButton;
+    Button*         updateButton;
+    Button*         licenseButton;
+    SettingsWindow* settingsWindow;
+};
+
+#endif // SETTINGS_WINDOW_H
