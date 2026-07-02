@@ -6,8 +6,9 @@
 #include <QString>
 #include <QDir>
 
-static int version = 198;
-static QString converterDataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/LatexMarkdownConverterData";
+static int      version             = 200;
+static QString  converterDataDir    = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/LatexMarkdownConverterData";
+static QString  aboutVersion        = "This version had a settings menu and a new design";
 
 bool CopyDirectoryToAppDir(const QString& sourceDirPath);
 void CreateDir(const QString& directory);

@@ -6,7 +6,7 @@
 
 #include "label.h"
 #include "button.h"
-#include "utils.h"
+#include "net.h"
 
 class SettingsWindowItemInformation : public QWidget
 {
@@ -25,9 +25,18 @@ private:
 class SettingsWindowItemUpdate : public QWidget
 {
 public:
-    explicit SettingsWindowItemUpdate(QWidget* parent);
+    SettingsWindowItemUpdate(QWidget* parent, Net& net);
 
 private:
+    void Update();
+
+private:
+    QWidget*    updateInformation;
+    Label*      updateIcon;
+    Label*      currentVersion;
+    Label*      aboutCurrentVersion;
+    Button*     update;
+    Net&        net;
 };
 
 class SettingsWindowItemLicense : public QWidget
@@ -36,6 +45,14 @@ public:
     explicit SettingsWindowItemLicense(QWidget* parent);
 
 private:
+    QWidget*    pandocLicense;
+    QWidget*    converterLicense;
+    Label*      pandocLicenseTitle;
+    Label*      pandocLicenseIcon;
+    Label*      converterLicenseTitle;
+    Label*      converterLicenseIcon;
+    Label*      pandocLicenseInformation;
+    Label*      converterLicenseInformation;
 };
 
 #endif // SETTINGS_WINDOW_ITEMS_H

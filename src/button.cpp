@@ -8,10 +8,14 @@
 #include <QFile>
 #include <QFont>
 
-Button::Button(QWidget* parent) : QPushButton(parent) {}
+Button::Button(QWidget* parent) : QPushButton(parent) 
+{
+    this->setFlat(true);
+}
 
 Button::Button(QWidget* parent, std::function<void()> slot) : QPushButton(parent)
 {
+    this->setFlat(true);
     ClickSlot = slot;
     
     QObject::connect(this, &QPushButton::clicked, this, [this]() 

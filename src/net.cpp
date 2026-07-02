@@ -23,8 +23,9 @@ Net::Net(const std::string& address, unsigned short port)
 }
 
 Net::~Net()
-{
-    Disconnect();
+{   
+    if (IsConnected())
+        Disconnect();
 }
 
 bool Net::Connect()
@@ -45,14 +46,14 @@ bool Net::Connect()
         boost::system::error_code ec;
         auto endpoints = resolver.resolve(server_address_, 
                                         std::to_string(server_port_), ec);
-        
+
         if (ec)
         {
             std::cerr << "Connect: Resolve error: " << ec.message() << std::endl;
             CleanupSocket();
             return false;
         }
-        
+
         boost::asio::connect(*socket_, endpoints, ec);
         
         if (ec)
@@ -61,7 +62,7 @@ bool Net::Connect()
             CleanupSocket();
             return false;
         }
-        
+
         std::cout << "Successfully connected to server" << std::endl;
         return true;
     }
@@ -391,4 +392,26 @@ QString Net::RequestVersion()
         qDebug() << "RequestVersion exception:" << e.what();
         return QString();
     }
+}
+
+std::string Net::GetLocalIP() 
+{
+    boost::asio::io_context io_context;
+    boost::asio::ip::tcp::resolver resolver(io_context);
+    
+    std::string hostname = boost::asio::ip::host_name();
+    
+    boost::asio::ip::tcp::resolver::results_type endpoints = resolver.resolve(hostname, "");
+    
+    for (const auto& endpoint : endpoints) 
+    {
+        boost::asio::ip::address addr = endpoint.endpoint().address();
+        
+        if (addr.is_v4() && !addr.is_loopback()) 
+        {
+            return addr.to_string();
+        }
+    }
+    
+    return "127.0.0.1";
 }

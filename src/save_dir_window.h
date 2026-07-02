@@ -20,12 +20,14 @@ public:
 private:
     void    UpdateSaveInfoText();
     void    ChooseDir();
+    void    Back();
 
 private:
     LineEdit*       saveDir;
     LineEdit*       fileName;
     Label*          saveInfoText;
     Button*         chooseDir;
+    Button*         back;
 };
 
 #endif // SAVE_DIR_WINDOW_H

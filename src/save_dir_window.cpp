@@ -1,5 +1,6 @@
 #include "save_dir_window.h"
 #include "main_window.h"
+#include "utils.h"
 
 #include <QObject>
 #include <QFileDialog>
@@ -9,21 +10,25 @@ static std::vector<QString> convertData;
 SaveDirWindow::SaveDirWindow()
 {
     this->setFixedSize(400, 200);
-    this->setWindowTitle("Параметры для сохранения");
+    this->setWindowTitle("Options for saving");
+    this->setStyleSheet(ReadAllFile("../styles/widget.css"));
 
     saveDir         = new LineEdit(this);
     fileName        = new LineEdit(this);
     chooseDir       = new Button(this, [this](){ChooseDir();});
+    back            = new Button(this, [this](){Back();});
     saveInfoText    = new Label(this);
 
     saveDir->SetGeometry(5, 5, 350, 40);
     fileName->SetGeometry(5, 50, 350, 40);
     chooseDir->SetGeometry(355, 5, 40, 40);
-    saveInfoText->SetGeometry(5, 80, 380, 100);
+    back->SetGeometry(360, 160, 35, 35);
+    saveInfoText->SetGeometry(5, 90, 350, 100);
 
     chooseDir->SetText("...");
-    saveDir->SetPlaceholderText("Укажите директорию");
-    fileName->SetPlaceholderText("Укажите название файла");
+    saveDir->SetPlaceholderText("Specify the directory");
+    fileName->SetPlaceholderText("Specify the file name");
+    back->SetIcon("../res/back.png");
 
     saveDir->setAlignment(Qt::AlignCenter);
     fileName->setAlignment(Qt::AlignCenter);
@@ -33,6 +38,12 @@ SaveDirWindow::SaveDirWindow()
 
     saveInfoText->SetTextSize(12);
 
+    saveDir->setStyleSheet(ReadAllFile("../styles/line_edit.css"));
+    fileName->setStyleSheet(ReadAllFile("../styles/line_edit.css"));
+    chooseDir->setStyleSheet("QPushButton {color: #ffffff;}");
+    back->setStyleSheet(ReadAllFile("../styles/button.css"));
+    saveInfoText->setStyleSheet(ReadAllFile("../styles/label.css"));
+
     QObject::connect(saveDir, &LineEdit::textChanged, this, &SaveDirWindow::UpdateSaveInfoText);
     QObject::connect(fileName, &LineEdit::textChanged, this, &SaveDirWindow::UpdateSaveInfoText);
 
@@ -41,7 +52,7 @@ SaveDirWindow::SaveDirWindow()
 
 void SaveDirWindow::ChooseDir()
 {
-    QString choosedDirectory = QFileDialog::getExistingDirectory(this, "Выберите папку", "/home", QFileDialog::ShowDirsOnly);
+    QString choosedDirectory = QFileDialog::getExistingDirectory(this, "Select a folder", "/home", QFileDialog::ShowDirsOnly);
 
     if (!choosedDirectory.isEmpty())
     {
@@ -56,7 +67,7 @@ void SaveDirWindow::UpdateSaveInfoText()
 
     if (fileName->GetText() != "" && saveDir->GetText() != "")
     {
-        saveInfoText->SetText("Полученный файл " + fileName->GetText() + ".pdf\nбудет сохранён в директорию \n" + saveDir->GetText());
+        saveInfoText->SetText("The resulting file " + fileName->GetText() + ".pdf\nwill be saved in the directory \n" + saveDir->GetText());
     }
 }
 
@@ -66,6 +77,11 @@ void SaveDirWindow::Show()
 }
 
 void SaveDirWindow::Hide()
+{
+    this->hide();
+}
+
+void SaveDirWindow::Back()
 {
     this->hide();
 }

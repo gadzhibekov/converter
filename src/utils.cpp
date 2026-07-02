@@ -119,7 +119,7 @@ void ConvertLatexToPdf()
     }
     else
     {
-        QMessageBox::critical(nullptr, "Ошибка", "Не удалсось создать временный файл для записи");
+        QMessageBox::critical(nullptr, "Error", "Failed to create temporary file for writing");
         RemoveDir(converterDataDir);
         return;
     }
@@ -137,16 +137,16 @@ void ConvertLatexToPdf()
 
     if(converResult)
     {
-        QMessageBox::critical(nullptr, "Результат конвертации", "Что-то пошло не так:\nПосмотрите на содержимое файла " 
+        QMessageBox::critical(nullptr, "Conversion result", "something went wrong:\nLook at the contents of the file" 
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + 
-                                        ".log, если такого файла у вас нет, то убедитесь что у вас установлена утилита pandoc");
+                                        ".log, If you don't have such a file, make sure you have the pandoc utility installed.");
     }
     else
     {
-        QMessageBox::information(nullptr, "Результат конвертации", "Успешно.Созданы файлы:\n-" 
+        QMessageBox::information(nullptr, "Conversion result", "Success. Files created:\n-" 
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".pdf\n-"
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".log\n\n"
-                                        + "Если с полученным .pdf файлом что-то не так, то весь лог конвертации можно посмотреть в файле .log");
+                                        + "If there is something wrong with the resulting .pdf file, the entire conversion log can be viewed in the .log file.");
     }
 }
 
@@ -163,7 +163,7 @@ void ConvertMarkdownToPdf()
     }
     else
     {
-        QMessageBox::critical(nullptr, "Ошибка", "Не удалось создать временный файл для записи");
+        QMessageBox::critical(nullptr, "Error", "Failed to create temporary file for writing");
         RemoveDir(converterDataDir);
         return;
     }
@@ -181,14 +181,14 @@ void ConvertMarkdownToPdf()
 
     if(convertResult)
     {
-        QMessageBox::critical(nullptr, "Результат конвертации", "Что-то пошло не так:\n"
-                                        "Убедитесь что у вас установлена утилита pandoc\n\n"
-                                        "Установка:\n"
-                                        "sudo apt install pandoc");
+        QMessageBox::critical(nullptr, "Conversion result", "Something went wrong:\n"
+                                        "Make sure you have the pandoc utility installed\n\n"
+                                        "Installing:\n"
+                                        "sudo apt install pandoc -y");
     }
     else
     {
-        QMessageBox::information(nullptr, "Результат конвертации", "Успешно. Создан файл:\n-" 
+        QMessageBox::information(nullptr, "Conversion result", "Success. File is created:\n-" 
                                         + outputFile);
     }
 }

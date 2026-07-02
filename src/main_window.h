@@ -28,11 +28,9 @@ public:
     static std::vector<QString> convertData;
 
 private:
-    void Update();
     void OpenSourceTextEditor();
     void OpenSaveDirEditor();
     void StartConvert();
-    void CopyCommand();
     void OpenSettingsWindow();
 
 private:
@@ -41,13 +39,10 @@ private:
     Label*                      editSourceTextIcon;
     Label*                      editSaveDirIcon;
     Label*                      startConvertIcon;
-    Label*                      versionLabel;
-    Label*                      informationLabel;
     Button*                     editSourceTextButton;
     Button*                     editSaveDirButton;
     Button*                     startConvertButton;
     Button*                     settingsButton;
-    Button*                     copyCommandButton;
     Net&                        net;
     TextEditor*                 textEditor;
     SaveDirWindow*              saveDirWindow;

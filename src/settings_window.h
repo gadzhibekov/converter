@@ -6,6 +6,7 @@
 
 #include "button.h"
 #include "settings_window_items.h"
+#include "net.h"
 
 class SettingsWindow;
 class SettingsWindowPanel;
@@ -13,14 +14,19 @@ class SettingsWindowPanel;
 class SettingsWindow : public QWidget
 {
 public:
-    SettingsWindow();
+    explicit SettingsWindow(Net& net);
     friend class SettingsWindowPanel;
 
 private:
+    void Back();
+
+private:
+    Button*                         back;
     SettingsWindowPanel*            panel;
     SettingsWindowItemInformation*  swii;
     SettingsWindowItemUpdate*       swiu;
     SettingsWindowItemLicense*      swil;
+    Net&                            net;
 };
 
 class SettingsWindowPanel : public QWidget

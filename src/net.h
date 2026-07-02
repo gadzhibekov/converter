@@ -16,20 +16,21 @@ namespace fs = std::filesystem;
 class Net
 {
 public:
-    Net(const std::string& address = "192.168.0.101", unsigned short port = 12345);
+    Net(const std::string& address, unsigned short port);
     ~Net();
     
-    bool    Connect();
-    void    Disconnect();
-    bool    IsConnected() const;
-    bool    RequestUpdates(const std::string& update_dir = "updated_data");
-    QString RequestVersion();
+    bool                Connect();
+    void                Disconnect();
+    bool                IsConnected() const;
+    bool                RequestUpdates(const std::string& update_dir = "updated_data");
+    QString             RequestVersion();
+    static std::string  GetLocalIP();
 
 private:
-    void    CleanupSocket();
-    bool    SendRequest(const std::string& request);
-    bool    ReceiveFile(const std::string& filename, const std::string& save_dir);
-    bool    ReceiveFileList(std::vector<std::string>& files);
+    void                CleanupSocket();
+    bool                SendRequest(const std::string& request);
+    bool                ReceiveFile(const std::string& filename, const std::string& save_dir);
+    bool                ReceiveFileList(std::vector<std::string>& files);
     
 private:
     boost::asio::io_context         io_context_;

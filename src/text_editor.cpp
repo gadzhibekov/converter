@@ -1,5 +1,6 @@
 #include "text_editor.h"
 #include "main_window.h"
+#include "utils.h"
 
 #include <QFont>
 #include <QObject>
@@ -7,7 +8,8 @@
 TextEditor::TextEditor()
 {
     this->setFixedSize(800, 800);
-    this->setWindowTitle("Редактор исходного кода");
+    this->setWindowTitle("Text Editor");
+    this->setStyleSheet(ReadAllFile("../styles/editor.css"));
 
     textEditor      = new QTextEdit(this);
     back            = new Button(this, [this](){Back();});
@@ -15,13 +17,21 @@ TextEditor::TextEditor()
     increaseText    = new Button(this, [this](){IncreaseText();});
 
     textEditor->setGeometry(0, 0, 800, 800);
-    back->SetGeometry(800 - 35, 800 - 35, 30, 30);
-    decreaseText->SetGeometry(800 - 35 - 35, 800 - 35, 30, 30);
-    increaseText->SetGeometry(800 - 35 - 35 - 35, 800 - 35, 30, 30);
+    back->SetGeometry(5, 800 - 40, 35, 35);
+    decreaseText->SetGeometry(800 - 40, 800 - 40, 35, 35);
+    increaseText->SetGeometry(800 - 40 - 40, 800 - 40, 35, 35);
 
-    back->SetText("B");
-    decreaseText->SetText("-");
-    increaseText->SetText("+");
+    back->SetIcon("../res/back.png");
+    increaseText->SetIcon("../res/plus.png");
+    decreaseText->SetIcon("../res/minus.png");
+
+    back->SetIconSize(35, 35);
+    increaseText->SetIconSize(35, 35);
+    decreaseText->SetIconSize(35, 35);
+
+    back->setStyleSheet(ReadAllFile("../styles/button.css"));
+    decreaseText->setStyleSheet(ReadAllFile("../styles/button.css"));
+    increaseText->setStyleSheet(ReadAllFile("../styles/button.css"));
 
     QObject::connect(textEditor, &QTextEdit::textChanged, this, &TextEditor::GetTextSlot);
 
