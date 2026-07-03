@@ -203,15 +203,19 @@ QString FromClipboard()
     return QApplication::clipboard()->text();
 }
 
-double ConvertToDecimal(int number)
+QString ConvertToDecimal(int number)
 {
-    int digits = 0;
-    int temp = number;
-    while (temp > 0)
+    std::string numStr = std::to_string(number);
+    std::string result;
+    
+    for (size_t i = 0; i < numStr.length(); i++)
     {
-        temp /= 10;
-        digits++;
+        result += numStr[i];
+        if (i < numStr.length() - 1)
+        {
+            result += '.';
+        }
     }
     
-    return number / std::pow(10.0, digits - 1);
+    return QString::fromStdString(result);
 }

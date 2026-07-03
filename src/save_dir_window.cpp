@@ -9,6 +9,7 @@ static std::vector<QString> convertData;
 
 SaveDirWindow::SaveDirWindow()
 {
+    this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(400, 200);
     this->setWindowTitle("Options for saving");
     this->setStyleSheet(ReadAllFile("../styles/widget.css"));
@@ -37,11 +38,12 @@ SaveDirWindow::SaveDirWindow()
     saveDir->Block();
 
     saveInfoText->SetTextSize(12);
+    back->SetIconSize(35, 35);
 
     saveDir->setStyleSheet(ReadAllFile("../styles/line_edit.css"));
     fileName->setStyleSheet(ReadAllFile("../styles/line_edit.css"));
-    chooseDir->setStyleSheet("QPushButton {color: #ffffff;}");
-    back->setStyleSheet(ReadAllFile("../styles/button.css"));
+    chooseDir->setStyleSheet(ReadAllFile("../styles/button_2.css"));
+    back->setStyleSheet(ReadAllFile("../styles/button_2.css"));
     saveInfoText->setStyleSheet(ReadAllFile("../styles/label.css"));
 
     QObject::connect(saveDir, &LineEdit::textChanged, this, &SaveDirWindow::UpdateSaveInfoText);

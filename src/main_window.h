@@ -32,6 +32,7 @@ private:
     void OpenSaveDirEditor();
     void StartConvert();
     void OpenSettingsWindow();
+    void Exit();
 
 private:
     QWidget*                    centralWidget;
@@ -43,6 +44,7 @@ private:
     Button*                     editSaveDirButton;
     Button*                     startConvertButton;
     Button*                     settingsButton;
+    Button*                     exit;
     Net&                        net;
     TextEditor*                 textEditor;
     SaveDirWindow*              saveDirWindow;

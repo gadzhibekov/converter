@@ -3,6 +3,7 @@
 
 SettingsWindow::SettingsWindow(Net& net) : net(net)
 {   
+    this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(1000, 500);
     this->setWindowTitle("Settings");
     this->setStyleSheet(ReadAllFile("../styles/widget.css"));
@@ -17,7 +18,7 @@ SettingsWindow::SettingsWindow(Net& net) : net(net)
     back->SetIcon("../res/back.png");
     back->SetIconSize(35, 35);
 
-    back->setStyleSheet(ReadAllFile("../styles/button.css"));
+    back->setStyleSheet(ReadAllFile("../styles/button_2.css"));
 
     swii->show();
     swiu->hide();

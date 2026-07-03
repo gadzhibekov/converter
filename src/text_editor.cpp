@@ -7,6 +7,7 @@
 
 TextEditor::TextEditor()
 {
+    this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(800, 800);
     this->setWindowTitle("Text Editor");
     this->setStyleSheet(ReadAllFile("../styles/editor.css"));
@@ -29,9 +30,9 @@ TextEditor::TextEditor()
     increaseText->SetIconSize(35, 35);
     decreaseText->SetIconSize(35, 35);
 
-    back->setStyleSheet(ReadAllFile("../styles/button.css"));
-    decreaseText->setStyleSheet(ReadAllFile("../styles/button.css"));
-    increaseText->setStyleSheet(ReadAllFile("../styles/button.css"));
+    back->setStyleSheet(ReadAllFile("../styles/button_2.css"));
+    decreaseText->setStyleSheet(ReadAllFile("../styles/button_2.css"));
+    increaseText->setStyleSheet(ReadAllFile("../styles/button_2.css"));
 
     QObject::connect(textEditor, &QTextEdit::textChanged, this, &TextEditor::GetTextSlot);
 

@@ -56,7 +56,7 @@ SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent, Net& net) : 
     updateIcon->SetIcon("../res/update.png");
 
     currentVersion              = new Label(updateInformation);
-    currentVersion->SetText(QString::number(ConvertToDecimal(version)));
+    currentVersion->SetText(ConvertToDecimal(version));
     currentVersion->SetTextSize(22);
     currentVersion->SetTextToCenter();
     currentVersion->SetGeometry(0, 55, 910, 50);
@@ -98,7 +98,7 @@ void SettingsWindowItemUpdate::Update()
 
 
                     msgBox.setText("The program has been updated to version " + 
-                                QString::number(ConvertToDecimal(ReadAllFile(converterDataDir + "/version.txt").toInt())) + 
+                                ConvertToDecimal(ReadAllFile(converterDataDir + "/version.txt").toInt()) + 
                                 "\n\n" + 
                                 ReadAllFile(converterDataDir + "/information.txt")
                                 + ". The changes will take effect after a reboot.");

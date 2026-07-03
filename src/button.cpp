@@ -29,6 +29,7 @@ Button::Button(QWidget* parent, std::function<void()> slot) : QPushButton(parent
 
 void Button::SetIcon(const QString& path)
 {
+    this->setText("");
     this->setIcon(QIcon(path));
     this->setIconSize(QSize(15, 15));
 }
