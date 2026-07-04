@@ -23,7 +23,7 @@ struct Button : QPushButton
 
 private:
 
-    std::function<void()>       ClickSlot;
+    std::function<void()>       clickSlot;
 };
 
 #endif // BUTTON_H

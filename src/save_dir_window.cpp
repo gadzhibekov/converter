@@ -1,6 +1,7 @@
 #include "save_dir_window.h"
 #include "main_window.h"
 #include "utils.h"
+#include "theme.h"
 
 #include <QObject>
 #include <QFileDialog>
@@ -12,7 +13,8 @@ SaveDirWindow::SaveDirWindow()
     this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(400, 200);
     this->setWindowTitle("Options for saving");
-    this->setStyleSheet(ReadAllFile("../styles/widget.css"));
+    
+    objPtrs.push_back({"Widget", this});
 
     saveDir         = new LineEdit(this);
     fileName        = new LineEdit(this);
@@ -40,11 +42,11 @@ SaveDirWindow::SaveDirWindow()
     saveInfoText->SetTextSize(12);
     back->SetIconSize(35, 35);
 
-    saveDir->setStyleSheet(ReadAllFile("../styles/line_edit.css"));
-    fileName->setStyleSheet(ReadAllFile("../styles/line_edit.css"));
-    chooseDir->setStyleSheet(ReadAllFile("../styles/button_2.css"));
-    back->setStyleSheet(ReadAllFile("../styles/button_2.css"));
-    saveInfoText->setStyleSheet(ReadAllFile("../styles/label.css"));
+    objPtrs.push_back({"LineEdit", saveDir});
+    objPtrs.push_back({"LineEdit", fileName});
+    objPtrs.push_back({"Button2", chooseDir});
+    objPtrs.push_back({"Button2", back});
+    objPtrs.push_back({"Label", saveInfoText});
 
     QObject::connect(saveDir, &LineEdit::textChanged, this, &SaveDirWindow::UpdateSaveInfoText);
     QObject::connect(fileName, &LineEdit::textChanged, this, &SaveDirWindow::UpdateSaveInfoText);

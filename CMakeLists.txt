@@ -28,6 +28,7 @@ set(SOURCES
     src/line_edit.cpp
     src/settings_window.cpp
     src/settings_window_items.cpp
+    src/theme.cpp
 )
 
 set(HEADERS
@@ -41,6 +42,7 @@ set(HEADERS
     src/line_edit.h
     src/settings_window.h
     src/settings_window_items.h
+    src/theme.h
 )
 
 add_executable(${PROJECT_NAME}

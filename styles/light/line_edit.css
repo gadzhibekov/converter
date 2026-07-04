@@ -1,0 +1,9 @@
+QLineEdit {
+    color: #1c1c1e;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+}
+
+QLineEdit::placeholder {
+    color: #8e8e93;
+}

@@ -1,6 +1,7 @@
 #include "text_editor.h"
 #include "main_window.h"
 #include "utils.h"
+#include "theme.h"
 
 #include <QFont>
 #include <QObject>
@@ -10,7 +11,8 @@ TextEditor::TextEditor()
     this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(800, 800);
     this->setWindowTitle("Text Editor");
-    this->setStyleSheet(ReadAllFile("../styles/editor.css"));
+
+    objPtrs.push_back({"Widget", this});
 
     textEditor      = new QTextEdit(this);
     back            = new Button(this, [this](){Back();});
@@ -30,9 +32,9 @@ TextEditor::TextEditor()
     increaseText->SetIconSize(35, 35);
     decreaseText->SetIconSize(35, 35);
 
-    back->setStyleSheet(ReadAllFile("../styles/button_2.css"));
-    decreaseText->setStyleSheet(ReadAllFile("../styles/button_2.css"));
-    increaseText->setStyleSheet(ReadAllFile("../styles/button_2.css"));
+    objPtrs.push_back({"Button2", back});
+    objPtrs.push_back({"Button2", decreaseText});
+    objPtrs.push_back({"Button2", increaseText});
 
     QObject::connect(textEditor, &QTextEdit::textChanged, this, &TextEditor::GetTextSlot);
 

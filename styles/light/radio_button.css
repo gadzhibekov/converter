@@ -1,0 +1,28 @@
+QWidget {
+    background-color: #ffffff;
+    font-family: "SF Pro Display", "Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", sans-serif;
+}
+
+QRadioButton {
+    color: #1c1c1e;
+}
+
+QRadioButton::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 11px;
+    border: 2px solid #8e8e93;
+    background-color: transparent;
+}
+
+QRadioButton::indicator:checked {
+    border: 2px solid #0a84ff;
+    background-color: qradialgradient(
+        cx: 0.5, cy: 0.5, radius: 0.35,
+        fx: 0.5, fy: 0.5,
+        stop: 0 #0a84ff,
+        stop: 0.7 #0a84ff,
+        stop: 0.71 transparent,
+        stop: 1 transparent
+    );
+}

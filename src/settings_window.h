@@ -26,6 +26,7 @@ private:
     SettingsWindowItemInformation*  swii;
     SettingsWindowItemUpdate*       swiu;
     SettingsWindowItemLicense*      swil;
+    SettingsWindowItemTheme*        swit;
     Net&                            net;
 };
 
@@ -38,11 +39,13 @@ private:
     void    ShowInformationItem();
     void    ShowUpdateItem();
     void    ShowLicenseItem();
+    void    ShowThemeItem();
 
 private:
     Button*         informationButton;
     Button*         updateButton;
     Button*         licenseButton;
+    Button*         themeButton;
     SettingsWindow* settingsWindow;
 };
 

@@ -1,0 +1,59 @@
+QPushButton {
+    background: qlineargradient(
+        x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 rgb(255, 255, 255),
+        stop: 0.4 rgb(245, 245, 247),
+        stop: 0.6 rgb(235, 235, 240),
+        stop: 1 rgb(229, 229, 234)
+    );
+    border: 1px solid rgb(210, 210, 215);
+    border-top: 1px solid rgb(230, 230, 235);
+    border-bottom: 1px solid rgb(200, 200, 205);
+    border-radius: 16px;
+    color: #1c1c1e;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 14px 0px;
+}
+
+QPushButton:hover {
+    background: qlineargradient(
+        x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 rgb(250, 250, 252),
+        stop: 0.4 rgb(240, 240, 245),
+        stop: 0.6 rgb(230, 230, 235),
+        stop: 1 rgb(225, 225, 230)
+    );
+    border: 1px solid rgb(190, 190, 195);
+}
+
+QPushButton:pressed {
+    background: qlineargradient(
+        x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 rgb(220, 220, 225),
+        stop: 0.4 rgb(210, 210, 215),
+        stop: 0.6 rgb(210, 210, 215),
+        stop: 1 rgb(220, 220, 225)
+    );
+    border: 1px solid rgb(180, 180, 185);
+    color: #0a84ff;
+    padding: 15px 0px 13px 0px;
+}
+
+QPushButton {
+    background: transparent;
+    border: none;
+    border-radius: 0px;
+    padding: 0px;
+}
+
+QPushButton:hover {
+    background: transparent;
+    border: none;
+}
+
+QPushButton:pressed {
+    background: transparent;
+    border: none;
+    padding-top: 1px; 
+}

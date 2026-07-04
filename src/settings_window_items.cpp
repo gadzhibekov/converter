@@ -1,5 +1,6 @@
 #include "settings_window_items.h"
 #include "utils.h"
+#include "theme.h"
 
 #include <QMessageBox>
 #include <QProcess>
@@ -31,13 +32,14 @@ SettingsWindowItemInformation::SettingsWindowItemInformation(QWidget* parent) : 
     title->SetTextSize(30);
     information->SetTextSize(13);
 
-    title->setStyleSheet(ReadAllFile("../styles/label.css"));
-    information->setStyleSheet(ReadAllFile("../styles/label.css"));
+    objPtrs.push_back({"Label", title});
+    objPtrs.push_back({"Label", information});
 
     copyCommandButton   = new Button(this, [this](){CopyCommand();});
     copyCommandButton->setText("Copy");
     copyCommandButton->setGeometry(400, 330, 200, 50);
-    copyCommandButton->setStyleSheet(ReadAllFile("../styles/button.css"));
+
+    objPtrs.push_back({"Button", copyCommandButton});
 }
 
 void SettingsWindowItemInformation::CopyCommand()
@@ -71,10 +73,10 @@ SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent, Net& net) : 
     update->setText("Update");
     update->SetGeometry(400, 295, 200, 50);
 
-    updateInformation->setStyleSheet(ReadAllFile("../styles/entity.css"));
-    currentVersion->setStyleSheet(ReadAllFile("../styles/label.css"));
-    aboutCurrentVersion->setStyleSheet(ReadAllFile("../styles/label.css"));
-    update->setStyleSheet(ReadAllFile("../styles/button.css"));
+    objPtrs.push_back({"Entity", updateInformation});
+    objPtrs.push_back({"Label", currentVersion});
+    objPtrs.push_back({"Label", aboutCurrentVersion});
+    objPtrs.push_back({"Button", update});
 }
 
 void SettingsWindowItemUpdate::Update()
@@ -195,10 +197,70 @@ SettingsWindowItemLicense::SettingsWindowItemLicense(QWidget* parent) : QWidget(
     pandocLicenseInformation->SetGeometry(0, 110, 910, 50);
     converterLicenseInformation->SetGeometry(0, 110, 910, 50);
 
-    pandocLicense->setStyleSheet(ReadAllFile("../styles/entity.css"));
-    converterLicense->setStyleSheet(ReadAllFile("../styles/entity.css"));
-    pandocLicenseTitle->setStyleSheet(ReadAllFile("../styles/label.css"));
-    converterLicenseTitle->setStyleSheet(ReadAllFile("../styles/label.css"));
-    pandocLicenseInformation->setStyleSheet(ReadAllFile("../styles/label.css"));
-    converterLicenseInformation->setStyleSheet(ReadAllFile("../styles/label.css"));
+    objPtrs.push_back({"Entity", pandocLicense});
+    objPtrs.push_back({"Entity", converterLicense});
+    objPtrs.push_back({"Label",  pandocLicenseTitle});
+    objPtrs.push_back({"Label",  converterLicenseTitle});
+    objPtrs.push_back({"Label",  pandocLicenseInformation});
+    objPtrs.push_back({"Label",  converterLicenseInformation});
+}
+
+SettingsWindowItemTheme::SettingsWindowItemTheme(QWidget* parent) : QWidget(parent)
+{
+    lightThemePhone         = new QWidget(this);
+    darkThemePhone          = new QWidget(this);
+
+    lightThemePhone->setGeometry(100, 60, 290, 180);
+    darkThemePhone->setGeometry(550, 60, 290, 180);
+
+    objPtrs.push_back({"LTP",  lightThemePhone});
+    objPtrs.push_back({"DTP",  darkThemePhone});
+
+    lightThemeTitle         = new Label(this);
+    darkThemeTitle          = new Label(this);
+    information             = new Label(this);
+
+    lightThemeTitle->SetText("Light Theme");
+    darkThemeTitle->SetText("Dark Theme");
+    information->SetText("To reduce eye strain, the program now supports both dark and light themes.\nIt's recommended to use the dark theme in the evening\nand the light theme during the day.");
+
+    lightThemeTitle->SetTextToCenter();
+    darkThemeTitle->SetTextToCenter();
+    information->SetTextToCenter();
+
+    lightThemeTitle->SetTextSize(18);
+    darkThemeTitle->SetTextSize(18);
+    information->SetTextSize(16);
+
+    lightThemeTitle->SetGeometry(100, 250, 290, 30);
+    darkThemeTitle->SetGeometry(550, 250, 290, 30);
+    information->SetGeometry(100, 325, 800, 100);
+
+    objPtrs.push_back({"Label",  lightThemeTitle});
+    objPtrs.push_back({"Label",  darkThemeTitle});
+    objPtrs.push_back({"Label",  information});
+
+    lightThemeRadioButton    = new QRadioButton(this);
+    darkThemeRadioButton     = new QRadioButton(this);
+
+    lightThemeRadioButton->setGeometry(225, 280, 50, 50);
+    darkThemeRadioButton->setGeometry(675, 280, 50, 50);
+
+    objPtrs.push_back({"RadioButton",  lightThemeRadioButton});
+    objPtrs.push_back({"RadioButton",  darkThemeRadioButton});
+
+    darkThemeRadioButton->setChecked(true);
+
+    QObject::connect(lightThemeRadioButton, &QRadioButton::clicked, this, &SettingsWindowItemTheme::LightTheme);
+    QObject::connect(darkThemeRadioButton, &QRadioButton::clicked, this, &SettingsWindowItemTheme::DarkTheme);
+}
+
+void SettingsWindowItemTheme::LightTheme()
+{
+    Switch2LightTheme();
+}
+
+void SettingsWindowItemTheme::DarkTheme()
+{
+    Switch2DarkTheme();
 }

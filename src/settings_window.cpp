@@ -1,16 +1,19 @@
 #include "settings_window.h"
 #include "utils.h"
+#include "theme.h"
 
 SettingsWindow::SettingsWindow(Net& net) : net(net)
 {   
     this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(1000, 500);
     this->setWindowTitle("Settings");
-    this->setStyleSheet(ReadAllFile("../styles/widget.css"));
+
+    objPtrs.push_back({"Widget", this});
 
     swii    = new SettingsWindowItemInformation(this);
     swiu    = new SettingsWindowItemUpdate(this, net);
     swil    = new SettingsWindowItemLicense(this);
+    swit    = new SettingsWindowItemTheme(this);
     panel   = new SettingsWindowPanel(this);
     back    = new Button(this, [this](){Back();});
 
@@ -18,11 +21,12 @@ SettingsWindow::SettingsWindow(Net& net) : net(net)
     back->SetIcon("../res/back.png");
     back->SetIconSize(35, 35);
 
-    back->setStyleSheet(ReadAllFile("../styles/button_2.css"));
+    objPtrs.push_back({"Button2", back});
 
     swii->show();
     swiu->hide();
     swil->hide();
+    swit->hide();
     this->hide();
 }
 
@@ -33,29 +37,34 @@ void SettingsWindow::Back()
 
 SettingsWindowPanel::SettingsWindowPanel(QWidget* parent) : QWidget(parent), settingsWindow(dynamic_cast<SettingsWindow*>(parent))
 {
-    this->setGeometry(436, 450, 128, 44);
-    this->setStyleSheet("background-color: red;");
-    this->setStyleSheet(ReadAllFile("../styles/panel.css"));
+    this->setGeometry(415, 445, 170, 44);
+
+    objPtrs.push_back({"Panel", this});
 
     informationButton   = new Button(this, [this](){ShowInformationItem();});
     updateButton        = new Button(this, [this](){ShowUpdateItem();});
     licenseButton       = new Button(this, [this](){ShowLicenseItem();});
+    themeButton         = new Button(this, [this](){ShowThemeItem();});
 
     informationButton->SetIcon("../res/information.png");
     updateButton->SetIcon("../res/update.png");
     licenseButton->SetIcon("../res/mit.png");
+    themeButton->SetIcon("../res/theme.png");
 
     informationButton->SetIconSize(40, 40);
     updateButton->SetIconSize(40, 40);
     licenseButton->SetIconSize(40, 40);
+    themeButton->SetIconSize(40, 40);
 
     informationButton->SetGeometry(2, 2, 40, 40);
     updateButton->SetGeometry(44, 2, 40, 40);
     licenseButton->SetGeometry(86, 2, 40, 40);
+    themeButton->SetGeometry(86 + 42, 2, 40, 40);
 
-    informationButton->setStyleSheet(ReadAllFile("../styles/panel_item.css"));
-    updateButton->setStyleSheet(ReadAllFile("../styles/panel_item.css"));
-    licenseButton->setStyleSheet(ReadAllFile("../styles/panel_item.css"));
+    objPtrs.push_back({"PanelItem", informationButton});
+    objPtrs.push_back({"PanelItem", updateButton});
+    objPtrs.push_back({"PanelItem", licenseButton});
+    objPtrs.push_back({"PanelItem", themeButton});
 }
 
 void SettingsWindowPanel::ShowInformationItem()
@@ -63,6 +72,7 @@ void SettingsWindowPanel::ShowInformationItem()
     settingsWindow->swii->show();
     settingsWindow->swiu->hide();
     settingsWindow->swil->hide();
+    settingsWindow->swit->hide();
 }
 
 void SettingsWindowPanel::ShowUpdateItem()
@@ -70,6 +80,7 @@ void SettingsWindowPanel::ShowUpdateItem()
     settingsWindow->swii->hide();
     settingsWindow->swiu->show();
     settingsWindow->swil->hide();
+    settingsWindow->swit->hide();
 }
 
 void SettingsWindowPanel::ShowLicenseItem()
@@ -77,4 +88,13 @@ void SettingsWindowPanel::ShowLicenseItem()
     settingsWindow->swii->hide();
     settingsWindow->swiu->hide();
     settingsWindow->swil->show();
+    settingsWindow->swit->hide();
+}
+
+void SettingsWindowPanel::ShowThemeItem()
+{
+    settingsWindow->swii->hide();
+    settingsWindow->swiu->hide();
+    settingsWindow->swil->hide();
+    settingsWindow->swit->show();
 }

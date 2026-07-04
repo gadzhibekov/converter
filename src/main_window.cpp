@@ -1,5 +1,6 @@
 #include "main_window.h"
 #include "utils.h"
+#include "theme.h"
 
 #include <QMessageBox>
 #include <QPushButton>
@@ -14,17 +15,18 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     this->setCentralWidget(centralWidget);
     this->setFixedSize(1200, 600);
     this->setWindowTitle("LaTeX & MarkDown Converter by Beibala Gadzhibekov");
-    this->setStyleSheet(ReadAllFile("../styles/widget.css"));
+
+    objPtrs.push_back(std::make_pair("Widget", centralWidget));
 
     title                   = new Label(centralWidget);
     editSourceTextIcon      = new Label(centralWidget);
     editSaveDirIcon         = new Label(centralWidget);
     startConvertIcon        = new Label(centralWidget);
 
-    title->setStyleSheet(ReadAllFile("../styles/label.css"));
-    editSourceTextIcon->setStyleSheet(ReadAllFile("../styles/label.css"));
-    editSaveDirIcon->setStyleSheet(ReadAllFile("../styles/label.css"));
-    startConvertIcon->setStyleSheet(ReadAllFile("../styles/label.css"));
+    objPtrs.push_back({"Label", title});
+    objPtrs.push_back({"Label", editSourceTextIcon});
+    objPtrs.push_back({"Label", editSaveDirIcon});
+    objPtrs.push_back({"Label", startConvertIcon});
     
     title->SetTextToCenter();
     editSourceTextIcon->SetTextToCenter();
@@ -52,11 +54,11 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     settingsButton          = new Button(centralWidget, [this](){OpenSettingsWindow();});
     exit                    = new Button(centralWidget, [this](){Exit();});
 
-    editSourceTextButton->setStyleSheet(ReadAllFile("../styles/button.css"));
-    editSaveDirButton->setStyleSheet(ReadAllFile("../styles/button.css"));
-    startConvertButton->setStyleSheet(ReadAllFile("../styles/button.css"));
-    settingsButton->setStyleSheet(ReadAllFile("../styles/button_2.css"));
-    exit->setStyleSheet(ReadAllFile("../styles/button_2.css"));
+    objPtrs.push_back({"Button", editSourceTextButton});
+    objPtrs.push_back({"Button", editSaveDirButton});
+    objPtrs.push_back({"Button", startConvertButton});
+    objPtrs.push_back({"Button2", settingsButton});
+    objPtrs.push_back({"Button2", exit});
 
     editSourceTextButton->SetText("Sourse text");
     editSaveDirButton->SetText("Save as");
@@ -78,6 +80,8 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     settingsWindow          = new SettingsWindow(net);
 
     MainWindow::convertData.resize(3);
+
+    Switch2DarkTheme();
 
     ShowWindow();
 }
