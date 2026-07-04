@@ -4,16 +4,18 @@
 #include "net.h"
 #include "utils.h"
 
-#define HOSTNAME    "beibala-PC"
-#define PORT        12345
+#define IP      "172.20.10.2"
+#define PORT    12345
 
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
 
-    Net net(HOSTNAME, PORT);
+    Net net(IP, PORT);
 
     MainWindow main_window(nullptr, net);
 
     return app.exec();
+
+    return 0;
 }

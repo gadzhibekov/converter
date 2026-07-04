@@ -6,9 +6,9 @@
 #include <QString>
 #include <QDir>
 
-static int      version             = 201;
+static int      version             = 202;
+static QString  aboutVersion        = "This version fixes a bug with connecting to the server";
 static QString  converterDataDir    = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/LatexMarkdownConverterData";
-static QString  aboutVersion        = "This version has been updated with improved interface elements";
 
 bool CopyDirectoryToAppDir(const QString& sourceDirPath);
 void CreateDir(const QString& directory);

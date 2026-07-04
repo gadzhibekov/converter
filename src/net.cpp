@@ -400,18 +400,37 @@ std::string Net::GetLocalIP()
     boost::asio::ip::tcp::resolver resolver(io_context);
     
     std::string hostname = boost::asio::ip::host_name();
+    boost::system::error_code ec;
+    auto endpoints = resolver.resolve(hostname, "0", ec);
     
-    boost::asio::ip::tcp::resolver::results_type endpoints = resolver.resolve(hostname, "");
-    
-    for (const auto& endpoint : endpoints) 
+    if (!ec) 
     {
-        boost::asio::ip::address addr = endpoint.endpoint().address();
-        
-        if (addr.is_v4() && !addr.is_loopback()) 
+        for (const auto& endpoint : endpoints) 
         {
-            return addr.to_string();
+            auto addr = endpoint.endpoint().address();
+            if (addr.is_v4() && !addr.is_loopback()) 
+            {
+                return addr.to_string();
+            }
         }
     }
     
-    return "127.0.0.1";
+    try 
+    {
+        boost::asio::ip::udp::socket socket(io_context);
+        socket.open(boost::asio::ip::udp::v4());
+        
+        socket.connect(
+            boost::asio::ip::udp::endpoint(
+                boost::asio::ip::address::from_string("8.8.8.8"), 
+                80
+            )
+        );
+        
+        return socket.local_endpoint().address().to_string();
+    }
+    catch (...) 
+    {
+        return "127.0.0.1";
+    }
 }
