@@ -16,6 +16,4 @@ int main(int argc, char** argv)
     MainWindow main_window(nullptr, net);
 
     return app.exec();
-
-    return 0;
 }

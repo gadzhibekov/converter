@@ -29,6 +29,8 @@ set(SOURCES
     src/settings_window.cpp
     src/settings_window_items.cpp
     src/theme.cpp
+    src/message_box.cpp
+    src/layout.cpp
 )
 
 set(HEADERS
@@ -43,6 +45,8 @@ set(HEADERS
     src/settings_window.h
     src/settings_window_items.h
     src/theme.h
+    src/message_box.h
+    src/layout.h
 )
 
 add_executable(${PROJECT_NAME}

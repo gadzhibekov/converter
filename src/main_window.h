@@ -14,6 +14,9 @@
 #include "text_editor.h"
 #include "save_dir_window.h"
 #include "settings_window.h"
+#include "message_box.h"
+
+extern MessageBox* msgBox; 
 
 class MainWindow : public QMainWindow
 {

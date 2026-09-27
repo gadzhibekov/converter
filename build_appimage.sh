@@ -33,7 +33,6 @@ Categories=Utility;
 Terminal=false
 EOF
 
-# Иконка: приоритет res/converter.png
 if [ -f res/converter.png ]; then
     convert res/converter.png -resize 256x256\! AppDir/cc.png
 elif [ -f res/icon.png ]; then

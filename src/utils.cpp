@@ -1,5 +1,7 @@
 #include "utils.h"
 #include "main_window.h"
+#include "message_box.h"
+#include "layout.h"
 
 #include <QCoreApplication>
 #include <QApplication>
@@ -11,7 +13,6 @@
 #include <QMessageBox>
 #include <QClipboard>
 
-#include <iostream>
 #include <string>
 
 void CreateDir(const QString& directory)
@@ -42,7 +43,6 @@ QString ReadAllFile(const QString& filePath)
     
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "Failed to open file:" << filePath;
         return QString();
     }
     
@@ -67,15 +67,12 @@ bool CopyDirectoryToAppDir(const QString& sourceDirPath)
     {
         QFileInfo appImageInfo(appImagePath);
         appDirPath = appImageInfo.absolutePath();
-        qDebug() << "Running from AppImage, using path:" << appDirPath;
     }
     
-    qDebug() << "Target directory:" << appDirPath;
     
     QString newAppImage = sourceDirPath + "/Converter.AppImage";
     if (!QFile::exists(newAppImage))
     {
-        qDebug() << "Source AppImage does not exist:" << newAppImage;
         return false;
     }
     
@@ -84,19 +81,14 @@ bool CopyDirectoryToAppDir(const QString& sourceDirPath)
     {
         if (!QFile::remove(oldAppImage))
         {
-            qDebug() << "Failed to remove old AppImage:" << oldAppImage;
             return false;
         }
-        qDebug() << "Removed old AppImage:" << oldAppImage;
     }
     
     if (!QFile::copy(newAppImage, oldAppImage))
     {
-        qDebug() << "Failed to copy new AppImage";
         return false;
     }
-    
-    qDebug() << "Copied Converter.AppImage to:" << oldAppImage;
     
     return true;
 }
@@ -119,7 +111,7 @@ void ConvertLatexToPdf()
     }
     else
     {
-        QMessageBox::critical(nullptr, "Error", "Failed to create temporary file for writing");
+        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[16]);
         RemoveDir(converterDataDir);
         return;
     }
@@ -137,16 +129,16 @@ void ConvertLatexToPdf()
 
     if(converResult)
     {
-        QMessageBox::critical(nullptr, "Conversion result", "something went wrong:\nLook at the contents of the file" 
+        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[17] 
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + 
-                                        ".log, If you don't have such a file, make sure you have the pandoc utility installed.");
+                                        GetCurrentLayout()[18]);
     }
     else
     {
-        QMessageBox::information(nullptr, "Conversion result", "Success. Files created:\n-" 
+        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[19]
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".pdf\n-"
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".log\n\n"
-                                        + "If there is something wrong with the resulting .pdf file, the entire conversion log can be viewed in the .log file.");
+                                        + GetCurrentLayout()[20]);
     }
 }
 
@@ -163,7 +155,7 @@ void ConvertMarkdownToPdf()
     }
     else
     {
-        QMessageBox::critical(nullptr, "Error", "Failed to create temporary file for writing");
+        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[21]);
         RemoveDir(converterDataDir);
         return;
     }
@@ -181,15 +173,11 @@ void ConvertMarkdownToPdf()
 
     if(convertResult)
     {
-        QMessageBox::critical(nullptr, "Conversion result", "Something went wrong:\n"
-                                        "Make sure you have the pandoc utility installed\n\n"
-                                        "Installing:\n"
-                                        "sudo apt install pandoc -y");
+        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[22] + "sudo apt install pandoc -y");
     }
     else
     {
-        QMessageBox::information(nullptr, "Conversion result", "Success. File is created:\n-" 
-                                        + outputFile);
+        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[23] + outputFile);
     }
 }
 

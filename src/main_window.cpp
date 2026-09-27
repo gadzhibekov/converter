@@ -1,11 +1,13 @@
 #include "main_window.h"
 #include "utils.h"
 #include "theme.h"
+#include "layout.h"
 
 #include <QMessageBox>
 #include <QPushButton>
 #include <QApplication>
 
+MessageBox* msgBox = nullptr;
 std::vector<QString> MainWindow::convertData;
 
 MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net)
@@ -14,7 +16,8 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setCentralWidget(centralWidget);
     this->setFixedSize(1200, 600);
-    this->setWindowTitle("LaTeX & MarkDown Converter by Beibala Gadzhibekov");
+
+    layoutObjPtrs.push_back({"MainWindow", this});
 
     objPtrs.push_back(std::make_pair("Widget", centralWidget));
 
@@ -22,6 +25,8 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     editSourceTextIcon      = new Label(centralWidget);
     editSaveDirIcon         = new Label(centralWidget);
     startConvertIcon        = new Label(centralWidget);
+    
+    msgBox->Instance()->setParent(centralWidget);
 
     objPtrs.push_back({"Label", title});
     objPtrs.push_back({"Label", editSourceTextIcon});
@@ -33,10 +38,11 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     editSaveDirIcon->SetTextToCenter();
     startConvertIcon->SetTextToCenter();
 
-    title->SetText("LaTeX & MarkDown Converter");
     editSourceTextIcon->SetText("1");
     editSaveDirIcon->SetText("2");
     startConvertIcon->SetText("3");
+
+    layoutObjPtrs.push_back({"Label", title});
 
     title->SetTextSize(40);
     editSourceTextIcon->SetTextSize(30);
@@ -60,9 +66,9 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     objPtrs.push_back({"Button2", settingsButton});
     objPtrs.push_back({"Button2", exit});
 
-    editSourceTextButton->SetText("Sourse text");
-    editSaveDirButton->SetText("Save as");
-    startConvertButton->SetText("Convert");
+    layoutObjPtrs.push_back({"Button", editSourceTextButton});
+    layoutObjPtrs.push_back({"Button", editSaveDirButton});
+    layoutObjPtrs.push_back({"Button", startConvertButton});
 
     editSourceTextButton->SetGeometry(200, 345, 200, 50);
     editSaveDirButton->SetGeometry(500, 345, 200, 50);
@@ -82,12 +88,15 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
     MainWindow::convertData.resize(3);
 
     Switch2DarkTheme();
+    Translate2Russian();
 
     ShowWindow();
 }
 
 MainWindow::~MainWindow()
 {
+    if (msgBox) delete msgBox;
+    
     delete textEditor;
     delete saveDirWindow;
     delete settingsWindow;
@@ -106,8 +115,8 @@ void MainWindow::OpenSaveDirEditor()
 void MainWindow::StartConvert()
 {
     QMessageBox msgBox;
-    msgBox.setWindowTitle("Select format");
-    msgBox.setText("What format would you like to create the document in?");
+    msgBox.setWindowTitle(GetCurrentLayout()[0]);
+    msgBox.setText(GetCurrentLayout()[1]);
     msgBox.setIcon(QMessageBox::Question);
 
     QPushButton *latexButton = msgBox.addButton("LaTeX", QMessageBox::AcceptRole);

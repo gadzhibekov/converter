@@ -23,6 +23,8 @@ void Switch2LightTheme()
         if (obj.first == "LTP")                 static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/light_theme_phone.css"));
         if (obj.first == "DTP")                 static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/dark_theme_phone.css"));
         if (obj.first == "RadioButton")         static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/radio_button.css"));
+        if (obj.first == "MessageBox")          static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/message_box_light.css"));
+        if (obj.first == "MessageBoxLabel")     static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/ms_label_light.css"));
     }
 }
 
@@ -41,5 +43,7 @@ void Switch2DarkTheme()
         if (obj.first == "LTP")                 static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/light_theme_phone.css"));
         if (obj.first == "DTP")                 static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/dark_theme_phone.css"));
         if (obj.first == "RadioButton")         static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/radio_button.css"));
+        if (obj.first == "MessageBox")          static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/message_box_dark.css"));
+        if (obj.first == "MessageBoxLabel")     static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/ms_label_dark.css"));
     }
 }

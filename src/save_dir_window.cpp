@@ -2,6 +2,7 @@
 #include "main_window.h"
 #include "utils.h"
 #include "theme.h"
+#include "layout.h"
 
 #include <QObject>
 #include <QFileDialog>
@@ -12,8 +13,8 @@ SaveDirWindow::SaveDirWindow()
 {
     this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(400, 200);
-    this->setWindowTitle("Options for saving");
-    
+
+    layoutObjPtrs.push_back({"Widget", this});
     objPtrs.push_back({"Widget", this});
 
     saveDir         = new LineEdit(this);
@@ -29,9 +30,10 @@ SaveDirWindow::SaveDirWindow()
     saveInfoText->SetGeometry(5, 90, 350, 100);
 
     chooseDir->SetText("...");
-    saveDir->SetPlaceholderText("Specify the directory");
-    fileName->SetPlaceholderText("Specify the file name");
     back->SetIcon("../res/back.png");
+
+    layoutObjPtrs.push_back({"LineEditPlaceHolder", saveDir});
+    layoutObjPtrs.push_back({"LineEditPlaceHolder", fileName});
 
     saveDir->setAlignment(Qt::AlignCenter);
     fileName->setAlignment(Qt::AlignCenter);
@@ -56,7 +58,7 @@ SaveDirWindow::SaveDirWindow()
 
 void SaveDirWindow::ChooseDir()
 {
-    QString choosedDirectory = QFileDialog::getExistingDirectory(this, "Select a folder", "/home", QFileDialog::ShowDirsOnly);
+    QString choosedDirectory = QFileDialog::getExistingDirectory(this, GetCurrentLayout()[4], "/home", QFileDialog::ShowDirsOnly);
 
     if (!choosedDirectory.isEmpty())
     {
@@ -71,7 +73,7 @@ void SaveDirWindow::UpdateSaveInfoText()
 
     if (fileName->GetText() != "" && saveDir->GetText() != "")
     {
-        saveInfoText->SetText("The resulting file " + fileName->GetText() + ".pdf\nwill be saved in the directory \n" + saveDir->GetText());
+        saveInfoText->SetText(GetCurrentLayout()[2] + fileName->GetText() + GetCurrentLayout()[3] + saveDir->GetText());
     }
 }
 

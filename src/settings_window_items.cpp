@@ -1,11 +1,12 @@
 #include "settings_window_items.h"
 #include "utils.h"
 #include "theme.h"
+#include "message_box.h"
+#include "layout.h"
 
 #include <QMessageBox>
 #include <QProcess>
 #include <QCoreApplication>
-#include <iostream>
 
 SettingsWindowItemInformation::SettingsWindowItemInformation(QWidget* parent) : QWidget(parent)
 {
@@ -14,14 +15,8 @@ SettingsWindowItemInformation::SettingsWindowItemInformation(QWidget* parent) : 
     title               = new Label(this);
     information         = new Label(this);
 
-    title->SetText("LaTeX & MarkDown Converter");
-    information->SetText(
-          (QString)"This program uses the pandoc utility to convert LaTeX and MarkDown codes into readable PDF format.\n"
-        + (QString)"The program's source code is protected by the MIT license; more details can be found in the third tab.\n"
-        + (QString)"Before you begin, make sure that you have downloaded the pandoc utility and its modules.\nYou can download them by entering the appropriate command in bash for Ubuntu-based distributions.\n\n"
-        + (QString)"sudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex \nfonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y"
-        + (QString)"\n\nThe command can be copied to the clipboard by clicking the \"Copy\" button below."
-    );
+    layoutObjPtrs.push_back({"Label", title});
+    layoutObjPtrs.push_back({"Label", information});
 
     title->SetTextToCenter();
     information->SetTextToCenter();
@@ -36,15 +31,17 @@ SettingsWindowItemInformation::SettingsWindowItemInformation(QWidget* parent) : 
     objPtrs.push_back({"Label", information});
 
     copyCommandButton   = new Button(this, [this](){CopyCommand();});
-    copyCommandButton->setText("Copy");
     copyCommandButton->setGeometry(400, 330, 200, 50);
 
     objPtrs.push_back({"Button", copyCommandButton});
+    layoutObjPtrs.push_back({"Button", copyCommandButton});
 }
 
 void SettingsWindowItemInformation::CopyCommand()
 {
     ToClipboard("sudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex fonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y");
+
+    MessageBox::Message(DONE_ICON, GetCurrentLayout()[5]);
 }
 
 
@@ -70,8 +67,9 @@ SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent, Net& net) : 
     aboutCurrentVersion->SetGeometry(0, 110, 910, 50);
 
     update                      = new Button(this, [this](){Update();});
-    update->setText("Update");
     update->SetGeometry(400, 295, 200, 50);
+
+    layoutObjPtrs.push_back({"Button", update});
 
     objPtrs.push_back({"Entity", updateInformation});
     objPtrs.push_back({"Label", currentVersion});
@@ -91,24 +89,24 @@ void SettingsWindowItemUpdate::Update()
             {
                 if (!CopyDirectoryToAppDir(converterDataDir))
                 {
-                    QMessageBox::critical(nullptr, "Error", "Failed to replace files");
+                    MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[6]);
                 }
                 else
                 {
                     QMessageBox msgBox;
-                    msgBox.setWindowTitle("Working with updates");
+                    msgBox.setWindowTitle(GetCurrentLayout()[7]);
 
 
-                    msgBox.setText("The program has been updated to version " + 
+                    msgBox.setText(GetCurrentLayout()[8] + 
                                 ConvertToDecimal(ReadAllFile(converterDataDir + "/version.txt").toInt()) + 
                                 "\n\n" + 
                                 ReadAllFile(converterDataDir + "/information.txt")
-                                + ". The changes will take effect after a reboot.");
+                                + GetCurrentLayout()[9]);
 
 
                     msgBox.setIcon(QMessageBox::Information);
 
-                    QPushButton *restartButton = msgBox.addButton("Reboot", QMessageBox::AcceptRole);
+                    QPushButton *restartButton = msgBox.addButton(GetCurrentLayout()[10], QMessageBox::AcceptRole);
 
                     msgBox.exec();
 
@@ -121,7 +119,6 @@ void SettingsWindowItemUpdate::Update()
                         {
                             QFileInfo appImageInfo(appImagePath);
                             appDirPath = appImageInfo.absolutePath();
-                            qDebug() << "Running from AppImage, using path:" << appDirPath;
                         }
 
                         
@@ -134,7 +131,7 @@ void SettingsWindowItemUpdate::Update()
             }
             else
             {
-                QMessageBox::critical(nullptr, "Error", "Failed to download update");
+                MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[11]);
             }
 
             RemoveDir(converterDataDir);
@@ -142,12 +139,12 @@ void SettingsWindowItemUpdate::Update()
         }
         else
         {
-            QMessageBox::information(nullptr, "Working with updates", "You have the current version of the program.");
+            MessageBox::Message(DONE_ICON, GetCurrentLayout()[12]);
         }
     }
     else
     {
-        QMessageBox::critical(nullptr, "Error", "Failed to establish connection to the server");
+        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[13]);
     }
 }
 
@@ -167,8 +164,6 @@ SettingsWindowItemLicense::SettingsWindowItemLicense(QWidget* parent) : QWidget(
 
     pandocLicenseTitle          = new Label(pandocLicense);
     converterLicenseTitle       = new Label(converterLicense);
-    pandocLicenseTitle->SetText("MIT License");
-    converterLicenseTitle->SetText("MIT License");
     pandocLicenseTitle->SetTextSize(22);
     converterLicenseTitle->SetTextSize(22);
     pandocLicenseTitle->SetTextToCenter();
@@ -176,16 +171,11 @@ SettingsWindowItemLicense::SettingsWindowItemLicense(QWidget* parent) : QWidget(
     pandocLicenseTitle->SetGeometry(0, 55, 910, 50);
     converterLicenseTitle->SetGeometry(0, 55, 910, 50);
 
+    layoutObjPtrs.push_back({"Label", pandocLicenseTitle});
+    layoutObjPtrs.push_back({"Label", converterLicenseTitle});
+
     pandocLicenseInformation    = new Label(pandocLicense);
     converterLicenseInformation = new Label(converterLicense);
-    pandocLicenseInformation->setText(
-        "<a href=\"https://github.com/ueberdosis/pandoc/blob/main/LICENSE.md\">"
-        "Pandoc License by Hans Pagel</a>"
-    );
-    converterLicenseInformation->setText(
-        "<a href=\"https://github.com/gadzhibekov/converter/blob/main/LICENSE\">"
-        "LaTeX & MarkDown Converter License by Beibala Gadzhibekov</a>"
-    );
     pandocLicenseInformation->setTextFormat(Qt::RichText);
     converterLicenseInformation->setTextFormat(Qt::RichText);
     pandocLicenseInformation->setOpenExternalLinks(true);
@@ -196,6 +186,9 @@ SettingsWindowItemLicense::SettingsWindowItemLicense(QWidget* parent) : QWidget(
     converterLicenseInformation->SetTextToCenter();
     pandocLicenseInformation->SetGeometry(0, 110, 910, 50);
     converterLicenseInformation->SetGeometry(0, 110, 910, 50);
+
+    layoutObjPtrs.push_back({"Label", pandocLicenseInformation});
+    layoutObjPtrs.push_back({"Label", converterLicenseInformation});
 
     objPtrs.push_back({"Entity", pandocLicense});
     objPtrs.push_back({"Entity", converterLicense});
@@ -220,9 +213,9 @@ SettingsWindowItemTheme::SettingsWindowItemTheme(QWidget* parent) : QWidget(pare
     darkThemeTitle          = new Label(this);
     information             = new Label(this);
 
-    lightThemeTitle->SetText("Light Theme");
-    darkThemeTitle->SetText("Dark Theme");
-    information->SetText("To reduce eye strain, the program now supports both dark and light themes.\nIt's recommended to use the dark theme in the evening\nand the light theme during the day.");
+    layoutObjPtrs.push_back({"Label", lightThemeTitle});
+    layoutObjPtrs.push_back({"Label", darkThemeTitle});
+    layoutObjPtrs.push_back({"Label", information});
 
     lightThemeTitle->SetTextToCenter();
     darkThemeTitle->SetTextToCenter();
@@ -258,9 +251,11 @@ SettingsWindowItemTheme::SettingsWindowItemTheme(QWidget* parent) : QWidget(pare
 void SettingsWindowItemTheme::LightTheme()
 {
     Switch2LightTheme();
+    MessageBox::Message(DONE_ICON, GetCurrentLayout()[14]);
 }
 
 void SettingsWindowItemTheme::DarkTheme()
 {
     Switch2DarkTheme();
+    MessageBox::Message(DONE_ICON, GetCurrentLayout()[15]);
 }
