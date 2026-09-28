@@ -6,10 +6,10 @@
 #include <QString>
 #include <QDir>
 
-static int      version             = 203;
-static QString  aboutVersion        = "This version adds support for the light theme";
+static int      version             = 206;
 static QString  converterDataDir    = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/LatexMarkdownConverterData";
 
+void OpenUrl(const QString &url);
 bool CopyDirectoryToAppDir(const QString& sourceDirPath);
 void CreateDir(const QString& directory);
 bool IsDirExists(const QString& directory);

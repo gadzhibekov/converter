@@ -5,7 +5,7 @@
 
 #include <QMainWindow>
 
-QString                                  currentLayout      = "english";
+QString                                  currentLayout      = "russian";
 std::vector<std::pair<QString, void *>>  layoutObjPtrs;
 
 std::vector<QString> lezgiLanguagePackDynamic = {
@@ -32,7 +32,8 @@ std::vector<QString> lezgiLanguagePackDynamic = {
     "Если в полученном PDF-файле обнаружены ошибки, полный журнал преобразования можно просмотреть в этом файле.log.",
     "Не удалось создать временный файл для записи.",
     "Что-то пошло не так:\nУбедитесь, что у вас установлена ​​утилита pandoc.\n\nУстановить:\n",
-    "Успешно. Созданы файлы:\n-"
+    "Успешно. Созданы файлы:\n-",
+    "Распакуйте скачанные файлы и замените текущий файл Converter.Appimage новым.\n\nЕсли вы получите ошибку 404, это означает, что у вас уже установлена ​​последняя версия программы."
 };
 
 std::vector<QString> russianLanguagePackDynamic = {
@@ -59,7 +60,8 @@ std::vector<QString> russianLanguagePackDynamic = {
     "Если в полученном PDF-файле обнаружены ошибки, полный журнал преобразования можно просмотреть в этом файле.log.",
     "Не удалось создать временный файл для записи.",
     "Что-то пошло не так:\nУбедитесь, что у вас установлена ​​утилита pandoc.\n\nУстановить:\n",
-    "Успешно. Созданы файлы:\n-"
+    "Успешно. Созданы файлы:\n-",
+    "Распакуйте скачанные файлы и замените текущий файл Converter.Appimage новым.\n\nЕсли вы получите ошибку 404, это означает, что у вас уже установлена ​​последняя версия программы."
 };
 
 std::vector<QString> englishLanguagePackDynamic = {
@@ -86,7 +88,8 @@ std::vector<QString> englishLanguagePackDynamic = {
     "If there is something wrong with the resulting .pdf file, the entire conversion log can be viewed in the .log file.",
     "Failed to create temporary file for writing",
     "Something went wrong:\nMake sure you have the pandoc utility installed\n\nInstalling:\n",
-    "Success. File is created:\n-"
+    "Success. File is created:\n-",
+    "Extract the downloaded files and replace your current Converter.Appimage with the new one.\n\nIf you get a 404 error, it means you already have the latest version of the program."
 };
 
 std::vector<QString> lezgiLanguagePack = {
@@ -103,6 +106,7 @@ std::vector<QString> lezgiLanguagePack = {
     "Эта программа использует утилиту pandoc для преобразования кодов LaTeX и MarkDown в читаемый формат PDF.\nИсходный код программы защищен лицензией MIT; более подробную информацию можно найти на третьей вкладке.\nПрежде чем начать, убедитесь, что вы загрузили утилиту pandoc и её модули.\nВы можете загрузить их, введя соответствующую команду в bash для дистрибутивов на основе Ubuntu.\n\nsudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex \nfonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y\n\nКоманду можно скопировать, нажав на кнопку \"Скопировать\" снизу",
     "Скопировать",
     "Обновить",
+    "В этой версии были внесены небольшие измения, связанные с оптимизацией.",
     "Лицензия MIT",
     "Лицензия  MIT",
     "<a href=\"https://github.com/ueberdosis/pandoc/blob/main/LICENSE.md\"> Лицензия на Pandoc от Хенса Пегеля</a>",
@@ -126,6 +130,7 @@ std::vector<QString> russianLanguagePack = {
     "Эта программа использует утилиту pandoc для преобразования кодов LaTeX и MarkDown в читаемый формат PDF.\nИсходный код программы защищен лицензией MIT; более подробную информацию можно найти на третьей вкладке.\nПрежде чем начать, убедитесь, что вы загрузили утилиту pandoc и её модули.\nВы можете загрузить их, введя соответствующую команду в bash для дистрибутивов на основе Ubuntu.\n\nsudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex \nfonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y\n\nКоманду можно скопировать, нажав на кнопку \"Скопировать\" снизу.",
     "Скопировать",
     "Обновить",
+    "В этой версии были внесены небольшие измения, связанные с оптимизацией.",
     "Лицензия MIT",
     "Лицензия  MIT",
     "<a href=\"https://github.com/ueberdosis/pandoc/blob/main/LICENSE.md\"> Лицензия на Pandoc от Хенса Пегеля</a>",
@@ -149,6 +154,7 @@ std::vector<QString> englishLanguagePack = {
     "This program uses the pandoc utility to convert LaTeX and MarkDown codes into readable PDF format.\nThe program's source code is protected by the MIT license; more details can be found in the third tab.\nBefore you begin, make sure that you have downloaded the pandoc utility and its modules.\nYou can download them by entering the appropriate command in bash for Ubuntu-based distributions.\n\nsudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex \nfonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y\n\nThe command can be copied to the clipboard by clicking the \"Copy\" button below.",
     "Copy",
     "Update",
+    "Minor changes related to optimization were made in this version.",
     "MIT License",
     "MIT License",
     "<a href=\"https://github.com/ueberdosis/pandoc/blob/main/LICENSE.md\"> Pandoc License by Hans Pagel</a>",

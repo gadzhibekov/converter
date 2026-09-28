@@ -10,7 +10,7 @@
 MessageBox* msgBox = nullptr;
 std::vector<QString> MainWindow::convertData;
 
-MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net)
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
 {
     centralWidget           = new QWidget(this);
     this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
@@ -83,12 +83,12 @@ MainWindow::MainWindow(QWidget* parent, Net& net) : QMainWindow(parent), net(net
 
     textEditor              = new TextEditor();
     saveDirWindow           = new SaveDirWindow();
-    settingsWindow          = new SettingsWindow(net);
+    settingsWindow          = new SettingsWindow();
 
     MainWindow::convertData.resize(3);
 
     Switch2DarkTheme();
-    Translate2Russian();
+    Translate2English();
 
     ShowWindow();
 }

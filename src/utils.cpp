@@ -12,8 +12,15 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QClipboard>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include <string>
+
+void OpenUrl(const QString &url)
+{
+    QDesktopServices::openUrl(QUrl(url));
+}
 
 void CreateDir(const QString& directory)
 {

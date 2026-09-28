@@ -8,6 +8,8 @@
 #include <QProcess>
 #include <QCoreApplication>
 
+#include <iostream>
+
 SettingsWindowItemInformation::SettingsWindowItemInformation(QWidget* parent) : QWidget(parent)
 {
     this->setGeometry(0, 0, 1000, 500);
@@ -45,7 +47,7 @@ void SettingsWindowItemInformation::CopyCommand()
 }
 
 
-SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent, Net& net) : QWidget(parent), net(net)
+SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent) : QWidget(parent)
 {
     updateInformation           = new QWidget(this);
     updateInformation->setGeometry(45, 75, 910, 200);
@@ -61,7 +63,6 @@ SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent, Net& net) : 
     currentVersion->SetGeometry(0, 55, 910, 50);
 
     aboutCurrentVersion         = new Label(updateInformation);
-    aboutCurrentVersion->setText(aboutVersion);
     aboutCurrentVersion->SetTextSize(18);
     aboutCurrentVersion->SetTextToCenter();
     aboutCurrentVersion->SetGeometry(0, 110, 910, 50);
@@ -70,6 +71,7 @@ SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent, Net& net) : 
     update->SetGeometry(400, 295, 200, 50);
 
     layoutObjPtrs.push_back({"Button", update});
+    layoutObjPtrs.push_back({"Label", aboutCurrentVersion});
 
     objPtrs.push_back({"Entity", updateInformation});
     objPtrs.push_back({"Label", currentVersion});
@@ -79,73 +81,15 @@ SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent, Net& net) : 
 
 void SettingsWindowItemUpdate::Update()
 {
-    if (net.Connect())
-    {
-        if (version != ConverQstrToInt(net.RequestVersion()))
-        {
-            CreateDir(converterDataDir);
+    QString tag{};
 
-            if (net.RequestUpdates(converterDataDir.toStdString()))
-            {
-                if (!CopyDirectoryToAppDir(converterDataDir))
-                {
-                    MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[6]);
-                }
-                else
-                {
-                    QMessageBox msgBox;
-                    msgBox.setWindowTitle(GetCurrentLayout()[7]);
+    tag += QString::number((version + 1) / 100);        tag += ".";
+    tag += QString::number(((version + 1) / 10) % 10);  tag += ".";
+    tag += QString::number((version + 1) % 10);
 
+    OpenUrl("https://github.com/gadzhibekov/converter/releases/download/" + tag + "/" + tag + ".zip");
 
-                    msgBox.setText(GetCurrentLayout()[8] + 
-                                ConvertToDecimal(ReadAllFile(converterDataDir + "/version.txt").toInt()) + 
-                                "\n\n" + 
-                                ReadAllFile(converterDataDir + "/information.txt")
-                                + GetCurrentLayout()[9]);
-
-
-                    msgBox.setIcon(QMessageBox::Information);
-
-                    QPushButton *restartButton = msgBox.addButton(GetCurrentLayout()[10], QMessageBox::AcceptRole);
-
-                    msgBox.exec();
-
-                    if (msgBox.clickedButton() == restartButton)
-                    {
-                        QString appDirPath = QCoreApplication::applicationDirPath();
-                        QString appImagePath = qEnvironmentVariable("APPIMAGE");
-                        
-                        if (!appImagePath.isEmpty())
-                        {
-                            QFileInfo appImageInfo(appImagePath);
-                            appDirPath = appImageInfo.absolutePath();
-                        }
-
-                        
-                        QProcess::startDetached("sh", QStringList() << "-c" 
-                            << QString("chmod a+x \"%1\" && \"%1\"").arg(appImagePath));
-                        
-                        qApp->quit();
-                    }
-                }
-            }
-            else
-            {
-                MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[11]);
-            }
-
-            RemoveDir(converterDataDir);
-            net.Disconnect();
-        }
-        else
-        {
-            MessageBox::Message(DONE_ICON, GetCurrentLayout()[12]);
-        }
-    }
-    else
-    {
-        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[13]);
-    }
+    MessageBox::Message(WARNING_ICON, GetCurrentLayout()[24]);
 }
 
 SettingsWindowItemLicense::SettingsWindowItemLicense(QWidget* parent) : QWidget(parent)

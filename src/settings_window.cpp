@@ -3,17 +3,16 @@
 #include "theme.h"
 #include "layout.h"
 
-SettingsWindow::SettingsWindow(Net& net) : net(net)
+SettingsWindow::SettingsWindow()
 {   
     this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(1000, 500);
-    // this->setWindowTitle("Settings");
 
     objPtrs.push_back({"Widget", this});
     layoutObjPtrs.push_back({"Widget", this});
 
     swii    = new SettingsWindowItemInformation(this);
-    swiu    = new SettingsWindowItemUpdate(this, net);
+    swiu    = new SettingsWindowItemUpdate(this);
     swil    = new SettingsWindowItemLicense(this);
     swit    = new SettingsWindowItemTheme(this);
     panel   = new SettingsWindowPanel(this);

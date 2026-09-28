@@ -7,15 +7,14 @@
 
 #include "label.h"
 #include "button.h"
-#include "net.h"
 
 class SettingsWindowItemInformation : public QWidget
 {
 public:
-    explicit SettingsWindowItemInformation(QWidget* parent);
+    explicit        SettingsWindowItemInformation(QWidget* parent);
 
 private:
-    void CopyCommand();
+    void            CopyCommand();
 
 private:
     Label*          title;
@@ -26,10 +25,10 @@ private:
 class SettingsWindowItemUpdate : public QWidget
 {
 public:
-    SettingsWindowItemUpdate(QWidget* parent, Net& net);
+                    SettingsWindowItemUpdate(QWidget* parent);
 
 private:
-    void    Update();
+    void            Update();
 
 private:
     QWidget*        updateInformation;
@@ -37,13 +36,12 @@ private:
     Label*          currentVersion;
     Label*          aboutCurrentVersion;
     Button*         update;
-    Net&            net;
 };
 
 class SettingsWindowItemLicense : public QWidget
 {
 public:
-    explicit SettingsWindowItemLicense(QWidget* parent);
+    explicit        SettingsWindowItemLicense(QWidget* parent);
 
 private:
     QWidget*        pandocLicense;
@@ -59,11 +57,11 @@ private:
 class SettingsWindowItemTheme : public QWidget
 {
 public:
-    explicit SettingsWindowItemTheme(QWidget* parent);
+    explicit        SettingsWindowItemTheme(QWidget* parent);
 
 private:
-    void    LightTheme();
-    void    DarkTheme();
+    void            LightTheme();
+    void            DarkTheme();
 
 private:
     QWidget*        lightThemePhone;

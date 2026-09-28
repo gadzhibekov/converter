@@ -12,13 +12,13 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt6 REQUIRED COMPONENTS
     Core
     Widgets
+    Network
 )
 
 find_package(Boost REQUIRED)
 
 set(SOURCES
     src/main.cpp
-    src/net.cpp
     src/utils.cpp
     src/main_window.cpp
     src/label.cpp
@@ -34,7 +34,6 @@ set(SOURCES
 )
 
 set(HEADERS
-    src/net.h
     src/utils.h
     src/main_window.h
     src/label.h
@@ -57,7 +56,7 @@ add_executable(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt::Core
     Qt::Widgets
-    Boost::boost
+    Qt::Network
     pthread
 )
 
