@@ -7,8 +7,8 @@
 #include <QMessageBox>
 #include <QProcess>
 #include <QCoreApplication>
-
-#include <iostream>
+#include <QVBoxLayout>
+#include <QPixmap>
 
 SettingsWindowItemInformation::SettingsWindowItemInformation(QWidget* parent) : QWidget(parent)
 {
@@ -89,7 +89,7 @@ void SettingsWindowItemUpdate::Update()
 
     OpenUrl("https://github.com/gadzhibekov/converter/releases/download/" + tag + "/" + tag + ".zip");
 
-    MessageBox::Message(WARNING_ICON, GetCurrentLayout()[24]);
+    MessageBox::Message(WARNING_ICON, GetCurrentLayout()[24], 15.0f);
 }
 
 SettingsWindowItemLicense::SettingsWindowItemLicense(QWidget* parent) : QWidget(parent)
@@ -189,17 +189,141 @@ SettingsWindowItemTheme::SettingsWindowItemTheme(QWidget* parent) : QWidget(pare
     darkThemeRadioButton->setChecked(true);
 
     QObject::connect(lightThemeRadioButton, &QRadioButton::clicked, this, &SettingsWindowItemTheme::LightTheme);
-    QObject::connect(darkThemeRadioButton, &QRadioButton::clicked, this, &SettingsWindowItemTheme::DarkTheme);
+    QObject::connect(darkThemeRadioButton,  &QRadioButton::clicked, this, &SettingsWindowItemTheme::DarkTheme);
 }
 
 void SettingsWindowItemTheme::LightTheme()
 {
     Switch2LightTheme();
-    MessageBox::Message(DONE_ICON, GetCurrentLayout()[14]);
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[14]);
 }
 
 void SettingsWindowItemTheme::DarkTheme()
 {
     Switch2DarkTheme();
-    MessageBox::Message(DONE_ICON, GetCurrentLayout()[15]);
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[15]);
+}
+
+SettingsWindowItemLayout::SettingsWindowItemLayout(QWidget* parent) : QWidget(parent)
+{
+    lezgianAlbanFlag        = new QWidget(this);
+    lezgianFlag             = new QWidget(this);
+    ruFlag                  = new QWidget(this);
+    enFlag                  = new QWidget(this);
+
+    lezgianAlbanFlag->setGeometry(101, 90, 162, 100);
+    lezgianFlag->setGeometry(313, 90, 162, 100);
+    ruFlag->setGeometry(525, 90, 162, 100);
+    enFlag->setGeometry(737, 90, 162, 100);
+
+    objPtrs.push_back({"QWidget",  lezgianAlbanFlag});
+    objPtrs.push_back({"QWidget",  lezgianFlag});
+    objPtrs.push_back({"QWidget",  ruFlag});
+    objPtrs.push_back({"QWidget",  enFlag});
+
+    lezgianAlbanFlagIcon    = new Label(lezgianAlbanFlag);
+    lezgianFlagIcon         = new Label(lezgianFlag);
+    ruFlagIcon              = new Label(ruFlag);
+    enFlagIcon              = new Label(enFlag);
+
+    QVBoxLayout *layoutLezgianAlban = new QVBoxLayout(lezgianAlbanFlag);
+    QVBoxLayout *layoutLezgian      = new QVBoxLayout(lezgianFlag);
+    QVBoxLayout *layoutRussian      = new QVBoxLayout(ruFlag);
+    QVBoxLayout *layoutEnglish      = new QVBoxLayout(enFlag);
+
+    lezgianAlbanFlagIcon->setPixmap(QPixmap("../res/lezgi_flag_alban.jpeg"));
+    lezgianFlagIcon->setPixmap(QPixmap("../res/lezgi_flag.jpeg"));
+    ruFlagIcon->setPixmap(QPixmap("../res/ru_flag.jpeg"));
+    enFlagIcon->setPixmap(QPixmap("../res/en_flag.jpeg"));
+
+    lezgianAlbanFlagIcon->setScaledContents(true);
+    lezgianFlagIcon->setScaledContents(true);
+    ruFlagIcon->setScaledContents(true);
+    enFlagIcon->setScaledContents(true);
+
+    layoutLezgianAlban->addWidget(lezgianAlbanFlagIcon);
+    layoutLezgian->addWidget(lezgianFlagIcon);
+    layoutRussian->addWidget(ruFlagIcon);
+    layoutEnglish->addWidget(enFlagIcon);
+
+    lezgianAlbanFlagTitle   = new Label(this);
+    lezgianFlagTitle        = new Label(this);
+    ruFlagTitle             = new Label(this);
+    enFlagTitle             = new Label(this);
+    information             = new Label(this);
+
+    layoutObjPtrs.push_back({"Label", lezgianAlbanFlagTitle});
+    layoutObjPtrs.push_back({"Label", lezgianFlagTitle});
+    layoutObjPtrs.push_back({"Label", ruFlagTitle});
+    layoutObjPtrs.push_back({"Label", enFlagTitle});
+    layoutObjPtrs.push_back({"Label", information});
+
+    lezgianAlbanFlagTitle->SetTextToCenter();
+    lezgianFlagTitle->SetTextToCenter();
+    ruFlagTitle->SetTextToCenter();
+    enFlagTitle->SetTextToCenter();
+    information->SetTextToCenter();
+
+    lezgianAlbanFlagTitle->SetTextSize(15);
+    lezgianFlagTitle->SetTextSize(15);
+    ruFlagTitle->SetTextSize(15);
+    enFlagTitle->SetTextSize(15);
+    information->SetTextSize(16);
+
+    lezgianAlbanFlagTitle->setGeometry(72, 190, 222, 50);
+    lezgianFlagTitle->setGeometry(313, 190, 162, 50);
+    ruFlagTitle->setGeometry(525, 190, 162, 50);
+    enFlagTitle->setGeometry(737, 190, 162, 50);
+    information->SetGeometry(100, 310, 800, 80);
+
+    objPtrs.push_back({"Label",  lezgianAlbanFlagTitle});
+    objPtrs.push_back({"Label",  lezgianFlagTitle});
+    objPtrs.push_back({"Label",  ruFlagTitle});
+    objPtrs.push_back({"Label",  enFlagTitle});
+    objPtrs.push_back({"Label",  information});
+
+    translateToLezgianAlbanRB   = new QRadioButton(this);
+    translateToLezgianRB        = new QRadioButton(this);
+    translateToRussianRB        = new QRadioButton(this);
+    translateToEnglishRB        = new QRadioButton(this);
+
+    translateToLezgianAlbanRB->setGeometry(171, 250, 162, 22);
+    translateToLezgianRB->setGeometry(383, 250, 162, 22);
+    translateToRussianRB->setGeometry(595, 250, 162, 22);
+    translateToEnglishRB->setGeometry(807, 250, 162, 22);
+
+    objPtrs.push_back({"RadioButton",  translateToLezgianAlbanRB});
+    objPtrs.push_back({"RadioButton",  translateToLezgianRB});
+    objPtrs.push_back({"RadioButton",  translateToRussianRB});
+    objPtrs.push_back({"RadioButton",  translateToEnglishRB});
+
+    translateToEnglishRB->setChecked(true);
+
+    QObject::connect(translateToLezgianAlbanRB, &QRadioButton::clicked, this, &SettingsWindowItemLayout::TranslateToLezgianAlban);
+    QObject::connect(translateToLezgianRB,      &QRadioButton::clicked, this, &SettingsWindowItemLayout::TranslateToLezgian);
+    QObject::connect(translateToRussianRB,      &QRadioButton::clicked, this, &SettingsWindowItemLayout::TranslateToRussian);
+    QObject::connect(translateToEnglishRB,      &QRadioButton::clicked, this, &SettingsWindowItemLayout::TranslateToEnglish);
+}
+
+void SettingsWindowItemLayout::TranslateToLezgianAlban()
+{
+    MessageBox::Message(WARNING_ICON, GetCurrentLayout()[25]);
+}
+
+void SettingsWindowItemLayout::TranslateToLezgian()
+{
+    Translate2Lezgian();
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[26], 3.0f);
+}
+
+void SettingsWindowItemLayout::TranslateToRussian()
+{
+    Translate2Russian();
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[27], 3.0f);
+}
+
+void SettingsWindowItemLayout::TranslateToEnglish()
+{
+    Translate2English();
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[28], 3.0f);
 }

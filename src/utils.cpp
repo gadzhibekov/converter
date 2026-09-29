@@ -138,14 +138,14 @@ void ConvertLatexToPdf()
     {
         MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[17] 
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + 
-                                        GetCurrentLayout()[18]);
+                                        GetCurrentLayout()[18], 8.5f);
     }
     else
     {
         MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[19]
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".pdf\n-"
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".log\n\n"
-                                        + GetCurrentLayout()[20]);
+                                        + GetCurrentLayout()[20], 8.5f);
     }
 }
 
@@ -180,11 +180,11 @@ void ConvertMarkdownToPdf()
 
     if(convertResult)
     {
-        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[22] + "sudo apt install pandoc -y");
+        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[22] + "sudo apt install pandoc -y", 8.5f);
     }
     else
     {
-        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[23] + outputFile);
+        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[23] + outputFile, 8.5f);
     }
 }
 
@@ -206,6 +206,7 @@ QString ConvertToDecimal(int number)
     for (size_t i = 0; i < numStr.length(); i++)
     {
         result += numStr[i];
+        
         if (i < numStr.length() - 1)
         {
             result += '.';

@@ -18,7 +18,7 @@ class MessageBox : public QWidget
 public:
     static MessageBox* Instance();
 
-    static void Message(const QString& pathToIcon, const QString& data, float timeSeconds = 3.5f);
+    static void Message(const QString& pathToIcon, const QString& data, float timeSeconds = 5.0f);
 
 protected:
     void        paintEvent(QPaintEvent* event) override;

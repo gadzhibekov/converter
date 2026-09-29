@@ -26,6 +26,7 @@ private:
     SettingsWindowItemUpdate*       swiu;
     SettingsWindowItemLicense*      swil;
     SettingsWindowItemTheme*        swit;
+    SettingsWindowItemLayout*       swilt;
 };
 
 class SettingsWindowPanel : public QWidget
@@ -34,17 +35,19 @@ public:
     explicit SettingsWindowPanel(QWidget* parent);
 
 private:
-    void    ShowInformationItem();
-    void    ShowUpdateItem();
-    void    ShowLicenseItem();
-    void    ShowThemeItem();
+    void                            ShowInformationItem();
+    void                            ShowUpdateItem();
+    void                            ShowLicenseItem();
+    void                            ShowThemeItem();
+    void                            ShowLayoutItem();
 
 private:
-    Button*         informationButton;
-    Button*         updateButton;
-    Button*         licenseButton;
-    Button*         themeButton;
-    SettingsWindow* settingsWindow;
+    Button*                         informationButton;
+    Button*                         updateButton;
+    Button*                         licenseButton;
+    Button*                         themeButton;
+    Button*                         layoutButton;
+    SettingsWindow*                 settingsWindow;
 };
 
 #endif // SETTINGS_WINDOW_H

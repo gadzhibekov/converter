@@ -13,15 +13,15 @@ class TextEditor : public QWidget
 public:
     TextEditor();
 
-    void    Show();
-    void    Hide();
-    QString GetText() const;
+    void        Show();
+    void        Hide();
+    QString     GetText() const;
 
 private:
-    void    Back();
-    void    IncreaseText();
-    void    DecreaseText();
-    void    GetTextSlot();
+    void        Back();
+    void        IncreaseText();
+    void        DecreaseText();
+    void        GetTextSlot();
 
 private:
     QTextEdit*  textEditor;

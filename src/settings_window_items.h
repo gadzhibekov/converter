@@ -73,4 +73,35 @@ private:
     Label*          information;
 };
 
+class SettingsWindowItemLayout : public QWidget
+{
+public:
+    explicit        SettingsWindowItemLayout(QWidget* parent);
+
+private:
+    void            TranslateToLezgianAlban();
+    void            TranslateToLezgian();
+    void            TranslateToRussian();
+    void            TranslateToEnglish();
+
+private:
+    QWidget*        lezgianAlbanFlag;
+    QWidget*        lezgianFlag;
+    QWidget*        ruFlag;
+    QWidget*        enFlag;
+    QRadioButton*   translateToLezgianRB;
+    QRadioButton*   translateToLezgianAlbanRB;
+    QRadioButton*   translateToRussianRB;
+    QRadioButton*   translateToEnglishRB;
+    Label*          lezgianAlbanFlagTitle;
+    Label*          lezgianFlagTitle;
+    Label*          ruFlagTitle;
+    Label*          enFlagTitle;
+    Label*          lezgianAlbanFlagIcon;
+    Label*          lezgianFlagIcon;
+    Label*          ruFlagIcon;
+    Label*          enFlagIcon;
+    Label*          information;
+};
+
 #endif // SETTINGS_WINDOW_ITEMS_H

@@ -2,6 +2,7 @@
 #include "main_window.h"
 #include "utils.h"
 #include "theme.h"
+#include "layout.h"
 
 #include <QFont>
 #include <QObject>
@@ -10,9 +11,9 @@ TextEditor::TextEditor()
 {
     this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(800, 800);
-    this->setWindowTitle("Text Editor");
 
     objPtrs.push_back({"Widget", this});
+    layoutObjPtrs.push_back({"Widget", this});
 
     textEditor      = new QTextEdit(this);
     back            = new Button(this, [this](){Back();});

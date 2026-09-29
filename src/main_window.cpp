@@ -88,8 +88,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
     MainWindow::convertData.resize(3);
 
     Switch2DarkTheme();
-    Translate2English();
-
+    Translate2Lezgian();
     ShowWindow();
 }
 

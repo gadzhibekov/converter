@@ -18,6 +18,8 @@ MessageBox::MessageBox(QWidget* parent) : QWidget(parent)
     icon = new Label(this);
     data = new Label(this);
 
+    data->SetTextToCenter();
+
     objPtrs.push_back(std::make_pair("MessageBox", this));
     objPtrs.push_back(std::make_pair("MessageBoxLabel", icon));
     objPtrs.push_back(std::make_pair("MessageBoxLabel", data));
