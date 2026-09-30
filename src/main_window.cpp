@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "theme.h"
 #include "layout.h"
+#include "message_box.h"
 
 #include <QMessageBox>
 #include <QPushButton>
@@ -113,18 +114,13 @@ void MainWindow::OpenSaveDirEditor()
 
 void MainWindow::StartConvert()
 {
-    QMessageBox msgBox;
-    msgBox.setWindowTitle(GetCurrentLayout()[0]);
-    msgBox.setText(GetCurrentLayout()[1]);
-    msgBox.setIcon(QMessageBox::Question);
-
-    QPushButton *latexButton = msgBox.addButton("LaTeX", QMessageBox::AcceptRole);
-    QPushButton *markdownButton = msgBox.addButton("MarkDown", QMessageBox::AcceptRole);
-
-    msgBox.exec();
-
-    if (msgBox.clickedButton() == latexButton)          ConvertLatexToPdf();
-    else if (msgBox.clickedButton() == markdownButton)  ConvertMarkdownToPdf();
+    MessageBox::Dialog(GetCurrentLayout()[1],
+                        "LaTeX",
+                        DEFAULT_BUTTON_COLOR,
+                        [](){ConvertLatexToPdf();},
+                        "MarkDown",
+                        DEFAULT_BUTTON_COLOR,
+                        [](){ConvertMarkdownToPdf();});
 }
 
 void MainWindow::SetTitle(const QString& title)

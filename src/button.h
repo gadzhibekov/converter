@@ -8,21 +8,27 @@
 #include <QEvent>
 
 #include <functional>
+#include <initializer_list>
 
-struct Button : QPushButton
+#include "message_box.h"
+
+class MessageBox;
+
+class Button : public QPushButton
 {
+public:
     Button(QWidget* parent);
     Button(QWidget* parent, std::function<void()> slot);
     
     void                        SetIcon(const QString& path);
     void                        SetText(const QString& text);
-    void                        SetColor(int red, int green, int blue);
     void                        SetGeometry(int x, int y, int w, int h);
     void                        SetIconSize(int width, int height);
     void                        SetTextSize(int size);
+    void                        SetAction(std::function<void()> action);
+    void                        SetColor(std::initializer_list<float> rgba);
 
 private:
-
     std::function<void()>       clickSlot;
 };
 

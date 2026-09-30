@@ -9,6 +9,11 @@
 
 class SettingsWindow;
 class SettingsWindowPanel;
+class SettingsWindowItemInformation;
+class SettingsWindowItemUpdate;
+class SettingsWindowItemLicense;
+class SettingsWindowItemTheme;
+class SettingsWindowItemLayout;
 
 class SettingsWindow : public QWidget
 {

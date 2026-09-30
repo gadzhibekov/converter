@@ -6,7 +6,7 @@
 #include <QString>
 #include <QDir>
 
-static int      version             = 207;
+static int      version             = 208;
 static QString  converterDataDir    = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/LatexMarkdownConverterData";
 
 void OpenUrl(const QString &url);

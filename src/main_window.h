@@ -8,6 +8,12 @@
 
 #include <vector>
 
+class Button;
+class MessageBox;
+class TextEditor;
+class SaveDirWindow;
+class SettingsWindow;
+
 #include "label.h"
 #include "button.h"
 #include "text_editor.h"
@@ -16,6 +22,8 @@
 #include "message_box.h"
 
 extern MessageBox* msgBox; 
+
+// class Button;
 
 class MainWindow : public QMainWindow
 {
