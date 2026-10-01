@@ -6,7 +6,7 @@
 #include <QString>
 #include <QDir>
 
-static int      version             = 208;
+static int      version             = 209;
 static QString  converterDataDir    = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/LatexMarkdownConverterData";
 
 void OpenUrl(const QString &url);
@@ -17,8 +17,8 @@ void RemoveDir(const QString& directory);
 QString ReadAllFile(const QString& filePath);
 int ConverQstrToInt(const QString& str);
 void RemoveFile(const QString& path);
-void ConvertLatexToPdf();
-void ConvertMarkdownToPdf();
+void LatexToPdf();
+void MarkdownToPdf();
 void ToClipboard(const QString& data);
 QString FromClipboard();
 QString ConvertToDecimal(int number);

@@ -15,6 +15,7 @@ void Switch2LightTheme()
         if (obj.first == "Widget")              static_cast<QWidget *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/widget.css"));
         if (obj.first == "Button")              static_cast<Button  *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/button.css"));
         if (obj.first == "Button2")             static_cast<Button  *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/button_2.css"));
+        if (obj.first == "Button3")             static_cast<Button  *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/button_3.css"));
         if (obj.first == "Label")               static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/label.css"));
         if (obj.first == "LineEdit")            static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/line_edit.css"));
         if (obj.first == "Panel")               static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/light/panel.css"));
@@ -35,6 +36,7 @@ void Switch2DarkTheme()
         if (obj.first == "Widget")              static_cast<QWidget *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/widget.css"));
         if (obj.first == "Button")              static_cast<Button  *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/button.css"));
         if (obj.first == "Button2")             static_cast<Button  *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/button_2.css"));
+        if (obj.first == "Button3")             static_cast<Button  *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/button_3.css"));
         if (obj.first == "Label")               static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/label.css"));
         if (obj.first == "LineEdit")            static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/line_edit.css"));
         if (obj.first == "Panel")               static_cast<Label   *>(obj.second)->setStyleSheet(ReadAllFile("../styles/dark/panel.css"));

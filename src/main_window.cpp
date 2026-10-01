@@ -60,12 +60,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
     startConvertButton      = new Button(centralWidget, [this](){StartConvert();});
     settingsButton          = new Button(centralWidget, [this](){OpenSettingsWindow();});
     exit                    = new Button(centralWidget, [this](){Exit();});
+    minimize                = new Button(centralWidget, [this](){Minimize();});
 
     objPtrs.push_back({"Button", editSourceTextButton});
     objPtrs.push_back({"Button", editSaveDirButton});
     objPtrs.push_back({"Button", startConvertButton});
     objPtrs.push_back({"Button2", settingsButton});
-    objPtrs.push_back({"Button2", exit});
+    objPtrs.push_back({"Button3", exit});
+    objPtrs.push_back({"Button3", minimize});
 
     layoutObjPtrs.push_back({"Button", editSourceTextButton});
     layoutObjPtrs.push_back({"Button", editSaveDirButton});
@@ -75,12 +77,16 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
     editSaveDirButton->SetGeometry(500, 345, 200, 50);
     startConvertButton->SetGeometry(800, 345, 200, 50);
     settingsButton->SetGeometry(10, 555, 35, 35);
-    exit->SetGeometry(10, 10, 35, 35);
+    exit->SetGeometry(5, 5, 20, 20);
+    minimize->SetGeometry(30, 5, 20, 20);
 
     settingsButton->SetIcon("../res/settings.png");
+    exit->SetIcon("../res/red_circle.png");
+    minimize->SetIcon("../res/yellow_circle.png");
+
     settingsButton->SetIconSize(35, 35);
-    exit->SetIcon("../res/back.png");
-    exit->SetIconSize(35, 35);
+    exit->SetIconSize(20, 20);
+    minimize->SetIconSize(20, 20);
 
     textEditor              = new TextEditor();
     saveDirWindow           = new SaveDirWindow();
@@ -116,11 +122,11 @@ void MainWindow::StartConvert()
 {
     MessageBox::Dialog(GetCurrentLayout()[1],
                         "LaTeX",
-                        DEFAULT_BUTTON_COLOR,
-                        [](){ConvertLatexToPdf();},
+                        BLUE_BUTTON_COLOR,
+                        [](){LatexToPdf();},
                         "MarkDown",
-                        DEFAULT_BUTTON_COLOR,
-                        [](){ConvertMarkdownToPdf();});
+                        GREEN_BUTTON_COLOR,
+                        [](){MarkdownToPdf();});
 }
 
 void MainWindow::SetTitle(const QString& title)
@@ -141,4 +147,9 @@ void MainWindow::OpenSettingsWindow()
 void MainWindow::Exit()
 {
     QApplication::quit();
+}
+
+void MainWindow::Minimize()
+{
+    this->setWindowState(this->windowState() | Qt::WindowMinimized);
 }

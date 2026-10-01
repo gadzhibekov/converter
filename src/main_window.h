@@ -23,8 +23,6 @@ class SettingsWindow;
 
 extern MessageBox* msgBox; 
 
-// class Button;
-
 class MainWindow : public QMainWindow
 {
 public:
@@ -43,6 +41,7 @@ private:
     void StartConvert();
     void OpenSettingsWindow();
     void Exit();
+    void Minimize();
 
 private:
     QWidget*                    centralWidget;
@@ -55,6 +54,7 @@ private:
     Button*                     startConvertButton;
     Button*                     settingsButton;
     Button*                     exit;
+    Button*                     minimize;
     TextEditor*                 textEditor;
     SaveDirWindow*              saveDirWindow;
     SettingsWindow*             settingsWindow;

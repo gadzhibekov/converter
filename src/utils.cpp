@@ -105,7 +105,7 @@ void RemoveFile(const QString& path)
     QFile::remove(path);
 }
 
-void ConvertLatexToPdf()
+void LatexToPdf()
 {
     CreateDir(converterDataDir);
 
@@ -149,7 +149,7 @@ void ConvertLatexToPdf()
     }
 }
 
-void ConvertMarkdownToPdf()
+void MarkdownToPdf()
 {
     CreateDir(converterDataDir);
 

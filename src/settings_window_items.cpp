@@ -26,7 +26,7 @@ SettingsWindowItemInformation::SettingsWindowItemInformation(QWidget* parent) : 
     title->SetGeometry(0, 60, 1000, 50);
     information->SetGeometry(0, 120, 1000, 200);
 
-    title->SetTextSize(30);
+    title->SetTextSize(25);
     information->SetTextSize(13);
 
     objPtrs.push_back({"Label", title});
@@ -65,7 +65,7 @@ SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent) : QWidget(pa
     aboutCurrentVersion         = new Label(updateInformation);
     aboutCurrentVersion->SetTextSize(18);
     aboutCurrentVersion->SetTextToCenter();
-    aboutCurrentVersion->SetGeometry(0, 110, 910, 50);
+    aboutCurrentVersion->SetGeometry(0, 110, 910, 70);
 
     update                      = new Button(this, [this](){Update();});
     update->SetGeometry(400, 295, 200, 50);
@@ -181,7 +181,7 @@ SettingsWindowItemTheme::SettingsWindowItemTheme(QWidget* parent) : QWidget(pare
     darkThemeRadioButton     = new QRadioButton(this);
 
     lightThemeRadioButton->setGeometry(225, 280, 50, 50);
-    darkThemeRadioButton->setGeometry(675, 280, 50, 50);
+    darkThemeRadioButton->setGeometry(680, 280, 50, 50);
 
     objPtrs.push_back({"RadioButton",  lightThemeRadioButton});
     objPtrs.push_back({"RadioButton",  darkThemeRadioButton});
@@ -297,7 +297,7 @@ SettingsWindowItemLayout::SettingsWindowItemLayout(QWidget* parent) : QWidget(pa
     objPtrs.push_back({"RadioButton",  translateToRussianRB});
     objPtrs.push_back({"RadioButton",  translateToEnglishRB});
 
-    translateToEnglishRB->setChecked(true);
+    translateToLezgianRB->setChecked(true);
 
     QObject::connect(translateToLezgianAlbanRB, &QRadioButton::clicked, this, &SettingsWindowItemLayout::TranslateToLezgianAlban);
     QObject::connect(translateToLezgianRB,      &QRadioButton::clicked, this, &SettingsWindowItemLayout::TranslateToLezgian);

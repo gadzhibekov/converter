@@ -195,11 +195,11 @@ void MessageBox::Dialog(const QString&                  data,
         });
         Instance()->actionAdd->setGeometry(5, (30 + (countOfStr * 21) + 65), 350, 50);
 
-        Instance()->setGeometry(420, 100, 360, (30 + (countOfStr * 21)) + 120);
+        Instance()->setGeometry(420, 150, 360, (30 + (countOfStr * 21)) + 120);
     }
     else
     {
-        Instance()->setGeometry(420, 100, 360, (30 + (countOfStr * 21)) + 65);
+        Instance()->setGeometry(420, 150, 360, (30 + (countOfStr * 21)) + 65);
     }
 
     Instance()->ShowAnimation();
