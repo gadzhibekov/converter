@@ -3,6 +3,7 @@
 #include "theme.h"
 #include "message_box.h"
 #include "layout.h"
+#include "main_window.h"
 
 #include <QMessageBox>
 #include <QProcess>
@@ -24,7 +25,7 @@ SettingsWindowItemInformation::SettingsWindowItemInformation(QWidget* parent) : 
     information->SetTextToCenter();
 
     title->SetGeometry(0, 60, 1000, 50);
-    information->SetGeometry(0, 120, 1000, 200);
+    information->SetGeometry(0, 120, 1000, 240);
 
     title->SetTextSize(25);
     information->SetTextSize(13);
@@ -33,7 +34,7 @@ SettingsWindowItemInformation::SettingsWindowItemInformation(QWidget* parent) : 
     objPtrs.push_back({"Label", information});
 
     copyCommandButton   = new Button(this, [this](){CopyCommand();});
-    copyCommandButton->setGeometry(400, 330, 200, 50);
+    copyCommandButton->setGeometry(400, 370, 200, 50);
 
     objPtrs.push_back({"Button", copyCommandButton});
     layoutObjPtrs.push_back({"Button", copyCommandButton});
@@ -43,7 +44,7 @@ void SettingsWindowItemInformation::CopyCommand()
 {
     ToClipboard("sudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex fonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y");
 
-    MessageBox::Message(DONE_ICON, GetCurrentLayout()[5]);
+    MessageBox::Message(DONE_ICON, GetCurrentLayout()[5], 3.5f, this);
 }
 
 
@@ -68,7 +69,7 @@ SettingsWindowItemUpdate::SettingsWindowItemUpdate(QWidget* parent) : QWidget(pa
     aboutCurrentVersion->SetGeometry(0, 110, 910, 70);
 
     update                      = new Button(this, [this](){Update();});
-    update->SetGeometry(400, 295, 200, 50);
+    update->SetGeometry(355, 295, 310, 50);
 
     layoutObjPtrs.push_back({"Button", update});
     layoutObjPtrs.push_back({"Label", aboutCurrentVersion});
@@ -89,7 +90,7 @@ void SettingsWindowItemUpdate::Update()
 
     OpenUrl("https://github.com/gadzhibekov/converter/releases/download/" + tag + "/" + tag + ".zip");
 
-    MessageBox::Message(WARNING_ICON, GetCurrentLayout()[24], 15.0f);
+    MessageBox::Message(WARNING_ICON, GetCurrentLayout()[24], 15.0f, this);
 }
 
 SettingsWindowItemLicense::SettingsWindowItemLicense(QWidget* parent) : QWidget(parent)
@@ -120,6 +121,7 @@ SettingsWindowItemLicense::SettingsWindowItemLicense(QWidget* parent) : QWidget(
 
     pandocLicenseInformation    = new Label(pandocLicense);
     converterLicenseInformation = new Label(converterLicense);
+
     pandocLicenseInformation->setTextFormat(Qt::RichText);
     converterLicenseInformation->setTextFormat(Qt::RichText);
     pandocLicenseInformation->setOpenExternalLinks(true);
@@ -186,7 +188,8 @@ SettingsWindowItemTheme::SettingsWindowItemTheme(QWidget* parent) : QWidget(pare
     objPtrs.push_back({"RadioButton",  lightThemeRadioButton});
     objPtrs.push_back({"RadioButton",  darkThemeRadioButton});
 
-    darkThemeRadioButton->setChecked(true);
+    if (configData.theme == "light")    lightThemeRadioButton->setChecked(true);
+    if (configData.theme == "dark")     darkThemeRadioButton->setChecked(true);
 
     QObject::connect(lightThemeRadioButton, &QRadioButton::clicked, this, &SettingsWindowItemTheme::LightTheme);
     QObject::connect(darkThemeRadioButton,  &QRadioButton::clicked, this, &SettingsWindowItemTheme::DarkTheme);
@@ -195,13 +198,15 @@ SettingsWindowItemTheme::SettingsWindowItemTheme(QWidget* parent) : QWidget(pare
 void SettingsWindowItemTheme::LightTheme()
 {
     Switch2LightTheme();
-    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[14]);
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[14], 3.0f, this);
+    configData.theme = "light";
 }
 
 void SettingsWindowItemTheme::DarkTheme()
 {
     Switch2DarkTheme();
-    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[15]);
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[15], 3.0f, this);
+    configData.theme = "dark";
 }
 
 SettingsWindowItemLayout::SettingsWindowItemLayout(QWidget* parent) : QWidget(parent)
@@ -226,10 +231,10 @@ SettingsWindowItemLayout::SettingsWindowItemLayout(QWidget* parent) : QWidget(pa
     ruFlagIcon              = new Label(ruFlag);
     enFlagIcon              = new Label(enFlag);
 
-    QVBoxLayout *layoutLezgianAlban = new QVBoxLayout(lezgianAlbanFlag);
-    QVBoxLayout *layoutLezgian      = new QVBoxLayout(lezgianFlag);
-    QVBoxLayout *layoutRussian      = new QVBoxLayout(ruFlag);
-    QVBoxLayout *layoutEnglish      = new QVBoxLayout(enFlag);
+    QVBoxLayout* layoutLezgianAlban = new QVBoxLayout(lezgianAlbanFlag);
+    QVBoxLayout* layoutLezgian      = new QVBoxLayout(lezgianFlag);
+    QVBoxLayout* layoutRussian      = new QVBoxLayout(ruFlag);
+    QVBoxLayout* layoutEnglish      = new QVBoxLayout(enFlag);
 
     lezgianAlbanFlagIcon->setPixmap(QPixmap("../res/lezgi_flag_alban.jpeg"));
     lezgianFlagIcon->setPixmap(QPixmap("../res/lezgi_flag.jpeg"));
@@ -297,7 +302,9 @@ SettingsWindowItemLayout::SettingsWindowItemLayout(QWidget* parent) : QWidget(pa
     objPtrs.push_back({"RadioButton",  translateToRussianRB});
     objPtrs.push_back({"RadioButton",  translateToEnglishRB});
 
-    translateToLezgianRB->setChecked(true);
+    if (configData.language == "lezgian")   translateToLezgianRB->setChecked(true);
+    if (configData.language == "russian")   translateToRussianRB->setChecked(true);
+    if (configData.language == "english")   translateToEnglishRB->setChecked(true);
 
     QObject::connect(translateToLezgianAlbanRB, &QRadioButton::clicked, this, &SettingsWindowItemLayout::TranslateToLezgianAlban);
     QObject::connect(translateToLezgianRB,      &QRadioButton::clicked, this, &SettingsWindowItemLayout::TranslateToLezgian);
@@ -307,23 +314,26 @@ SettingsWindowItemLayout::SettingsWindowItemLayout(QWidget* parent) : QWidget(pa
 
 void SettingsWindowItemLayout::TranslateToLezgianAlban()
 {
-    MessageBox::Message(WARNING_ICON, GetCurrentLayout()[25]);
+    MessageBox::Message(WARNING_ICON, GetCurrentLayout()[25], 3.0f, this);
 }
 
 void SettingsWindowItemLayout::TranslateToLezgian()
 {
     Translate2Lezgian();
-    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[26], 3.0f);
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[26], 3.0f, this);
+    configData.language = "lezgian";
 }
 
 void SettingsWindowItemLayout::TranslateToRussian()
 {
     Translate2Russian();
-    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[27], 3.0f);
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[27], 3.0f, this);
+    configData.language = "russian";
 }
 
 void SettingsWindowItemLayout::TranslateToEnglish()
 {
     Translate2English();
-    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[28], 3.0f);
+    MessageBox::Message(INFORMATION_ICON, GetCurrentLayout()[28], 3.0f, this);
+    configData.language = "english";
 }

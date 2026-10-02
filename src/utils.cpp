@@ -142,7 +142,7 @@ void LatexToPdf()
     }
     else
     {
-        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[19]
+        MessageBox::Message(DONE_ICON, GetCurrentLayout()[19]
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".pdf\n-"
                                         + MainWindow::convertData[1] + "/" + MainWindow::convertData[0] + ".log\n\n"
                                         + GetCurrentLayout()[20], 8.5f);
@@ -184,7 +184,7 @@ void MarkdownToPdf()
     }
     else
     {
-        MessageBox::Message(CRITICAL_ICON, GetCurrentLayout()[23] + outputFile, 8.5f);
+        MessageBox::Message(DONE_ICON, GetCurrentLayout()[23] + outputFile, 8.5f);
     }
 }
 

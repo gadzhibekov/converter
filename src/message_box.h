@@ -33,15 +33,21 @@ class MessageBox : public QWidget
 public:
     static MessageBox*      Instance();
 
+
+    static void             SetDefaultParent(QWidget* parent);
     static void             Hide();
-    static void             Message(const QString& pathToIcon, const QString& data, float timeSeconds = 5.0f);
-    static void             Dialog(const QString& data, 
-                                   const QString& mainActionTitle               = "Ok",
+    static void             Message(const QString&              pathToIcon      = INFORMATION_ICON, 
+                                    const QString&              data            = "", 
+                                    float                       timeSeconds     = 5.0f,
+                                    QWidget*                    parent          = nullptr);
+    static void             Dialog(const QString&               data            = "", 
+                                   const QString&               mainActionTitle = "OK",
                                    std::initializer_list<float> mainActionColor = BLUE_BUTTON_COLOR,
-                                   std::function<void()> mainAction             = NO_ACTION,
-                                   const QString& addActionTitle                = "",
+                                   std::function<void()>        mainAction      = NO_ACTION,
+                                   const QString&               addActionTitle  = "",
                                    std::initializer_list<float> addActionColor  = DEFAULT_BUTTON_COLOR,
-                                   std::function<void()> addAction              = NO_ACTION);
+                                   std::function<void()>        addAction       = NO_ACTION,
+                                   QWidget*                     parent          = nullptr);
 
 protected:
     void                    paintEvent(QPaintEvent* event) override;
@@ -52,6 +58,7 @@ private:
     void                    ShowAnimation();
     void                    HideAnimation();
 
+    static QWidget*         defaultParent;
     QTimer*                 hideTimer;
     Label*                  icon;
     Label*                  data;

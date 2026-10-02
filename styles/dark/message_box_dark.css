@@ -1,6 +1,6 @@
 QWidget {
-    background-color: #18181a;
+    background-color: #131314;
     font-family: "SF Pro Display", "Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", sans-serif;
-    border: 1px solid #1c1c1e;
+    border: 1px solid #28282a;
     border-radius: 15;
 }

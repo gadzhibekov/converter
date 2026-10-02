@@ -20,8 +20,10 @@ class SettingsWindow;
 #include "save_dir_window.h"
 #include "settings_window.h"
 #include "message_box.h"
+#include "config.h"
 
-extern MessageBox* msgBox; 
+extern ConfigData   configData;
+extern MessageBox*  msgBox; 
 
 class MainWindow : public QMainWindow
 {
@@ -49,6 +51,8 @@ private:
     Label*                      editSourceTextIcon;
     Label*                      editSaveDirIcon;
     Label*                      startConvertIcon;
+    Label*                      horizontalLine_1;
+    Label*                      horizontalLine_2;
     Button*                     editSourceTextButton;
     Button*                     editSaveDirButton;
     Button*                     startConvertButton;

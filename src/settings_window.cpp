@@ -3,6 +3,8 @@
 #include "theme.h"
 #include "layout.h"
 
+#include <QButtonGroup>
+
 SettingsWindow::SettingsWindow()
 {   
     this->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
@@ -49,6 +51,22 @@ SettingsWindowPanel::SettingsWindowPanel(QWidget* parent) : QWidget(parent), set
     licenseButton       = new Button(this, [this](){ShowLicenseItem();});
     themeButton         = new Button(this, [this](){ShowThemeItem();});
     layoutButton        = new Button(this, [this](){ShowLayoutItem();});
+
+    informationButton->setCheckable(true);
+    updateButton->setCheckable(true);
+    licenseButton->setCheckable(true);
+    themeButton->setCheckable(true);
+    layoutButton->setCheckable(true);
+
+    auto* group = new QButtonGroup(this);
+    group->setExclusive(true);
+    group->addButton(informationButton);
+    group->addButton(updateButton);
+    group->addButton(licenseButton);
+    group->addButton(themeButton);
+    group->addButton(layoutButton);
+
+    informationButton->setChecked(true); 
 
     informationButton->SetIcon("../res/information.png");
     updateButton->SetIcon("../res/update.png");

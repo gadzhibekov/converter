@@ -1,4 +1,4 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/gadzhibekov/converter/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/gadzhibekov/converter/blob/main/LICENSE)
 
 # LaTeX & MarkDown Converter
 

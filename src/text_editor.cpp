@@ -74,9 +74,11 @@ void TextEditor::Back()
 void TextEditor::Show()
 {
     this->show();
+    configData.sourceText = GetText();
 }
 
 void TextEditor::Hide()
 {
     this->hide();
+    configData.sourceText = GetText();
 }

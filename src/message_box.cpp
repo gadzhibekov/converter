@@ -5,17 +5,21 @@
 #include <QGraphicsOpacityEffect>
 #include <QStyleOption>
 #include <QPainter>
+#include <QApplication>
+#include <QScreen>
 
 #define MESSAGE_LIMIT_SYMBOLS   52
 #define DIALOG_LIMIT_SYMBOLS    30
 
-MessageBox* MessageBox::instance    = nullptr;
-bool        MessageBox::status      = false;
+MessageBox* MessageBox::instance        = nullptr;
+QWidget*    MessageBox::defaultParent   = nullptr;
+bool        MessageBox::status          = false;
 size_t      countOfStr;
 
 MessageBox::MessageBox(QWidget* parent) : QWidget(parent)
 {
     setObjectName("messageBox");
+    this->setAttribute(Qt::WA_TranslucentBackground);
 
     icon        = new Label(this);
     data        = new Label(this);
@@ -38,10 +42,15 @@ MessageBox::MessageBox(QWidget* parent) : QWidget(parent)
 
     QObject::connect(hideTimer, &QTimer::timeout, []
     {
-        if (!Instance()->status) Instance()->HideAnimation();
+        if (!status) Instance()->HideAnimation();
     });
 
     hide();
+}
+
+void MessageBox::SetDefaultParent(QWidget* parent)
+{
+    defaultParent = parent;
 }
 
 MessageBox* MessageBox::Instance()
@@ -136,54 +145,68 @@ void MessageBox::paintEvent(QPaintEvent*)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-void MessageBox::Message(const QString& pathToIcon, const QString& data, float timeSeconds)
+void MessageBox::Message(const QString& pathToIcon,
+                         const QString& data,
+                         float          timeSeconds,
+                         QWidget*       parent)
 {
+    QWidget* p = parent ? parent : defaultParent;
+    Instance()->setParent(p);
+
     Instance()->status = false;
     Instance()->actionMain->hide();
     Instance()->actionAdd->hide();
 
     Instance()->data->SetTextSize(13);
     Instance()->data->SetText(Instance()->Parser(data, MESSAGE_LIMIT_SYMBOLS));
-    Instance()->data->setGeometry(30, 1, 468, ((30 - 2) + (countOfStr * 21)));
+    Instance()->data->setGeometry(30, 1, 468, ((30 - 2) + (countOfStr * 25)));
 
-    Instance()->setGeometry(350, 10, 500, 30 + (countOfStr * 21));
+    int y = p ? static_cast<int>(p->height() * 0.02) : 100;
+    int x = p ? static_cast<int>((p->width() - 500) / 2) : 0;
+    Instance()->setGeometry(x, y, 500, 30 + (countOfStr * 25));
 
     Instance()->icon->show();
     Instance()->icon->SetIcon(pathToIcon);
     Instance()->icon->SetIconSize(28, 28);
-    Instance()->icon->setGeometry(2, ((30 + (countOfStr * 23)) - 28) / 2, 28, 28);
+    Instance()->icon->setGeometry(2, ((30 + (countOfStr * 25)) - 28) / 2, 28, 28);
 
     Instance()->ShowAnimation();
-    Instance()->hideTimer->start(static_cast<int>(timeSeconds * 1000.0f));  
+    Instance()->hideTimer->start(static_cast<int>(timeSeconds * 1000.0f));
 }
 
-void MessageBox::Dialog(const QString&                  data, 
-                        const QString&                  mainActionTitle,
-                        std::initializer_list<float>    mainActionColor,
-                        std::function<void()>           mainAction,
-                        const QString&                  addActionTitle,
-                        std::initializer_list<float>    addActionColor,
-                        std::function<void()>           addAction)
+void MessageBox::Dialog(const QString&               data,
+                        const QString&               mainActionTitle,
+                        std::initializer_list<float> mainActionColor,
+                        std::function<void()>        mainAction,
+                        const QString&               addActionTitle,
+                        std::initializer_list<float> addActionColor,
+                        std::function<void()>        addAction,
+                        QWidget*                     parent)
 {
+    QWidget* p = parent ? parent : defaultParent;
+    Instance()->setParent(p);
+    Instance()->hideTimer->stop();
+
     Instance()->status = true;
     Instance()->icon->hide();
 
     Instance()->data->SetTextSize(13);
     Instance()->data->SetText(Instance()->Parser(data, DIALOG_LIMIT_SYMBOLS));
-    Instance()->data->setGeometry(25, 5, 310, (30 + (countOfStr * 21)) - 4);
-    
+    Instance()->data->setGeometry(25, 5, 310, (30 + (countOfStr * 25)) - 4);
+
     Instance()->actionMain->show();
     Instance()->actionMain->SetColor(mainActionColor);
     Instance()->actionMain->SetText(mainActionTitle);
-    Instance()->actionMain->SetAction(mainAction);
     Instance()->actionMain->SetAction([mainAction = std::move(mainAction)]()
     {
         MessageBox::Hide();
         if (mainAction) mainAction();
     });
-    Instance()->actionMain->setGeometry(5, (30 + (countOfStr * 21) + 10), 350, 50);
+    Instance()->actionMain->setGeometry(5, (30 + (countOfStr * 25) + 10), 350, 50);
 
-    if (addAction) 
+    int h = (30 + (countOfStr * 25)) + 65;
+
+    if (addAction)
     {
         Instance()->actionAdd->show();
         Instance()->actionAdd->SetColor(addActionColor);
@@ -193,14 +216,16 @@ void MessageBox::Dialog(const QString&                  data,
             MessageBox::Hide();
             if (addAction) addAction();
         });
-        Instance()->actionAdd->setGeometry(5, (30 + (countOfStr * 21) + 65), 350, 50);
 
-        Instance()->setGeometry(420, 150, 360, (30 + (countOfStr * 21)) + 120);
+        Instance()->actionAdd->setGeometry(5, (30 + (countOfStr * 25) + 65), 350, 50);
+
+        h = (30 + (countOfStr * 25)) + 120;
     }
-    else
-    {
-        Instance()->setGeometry(420, 150, 360, (30 + (countOfStr * 21)) + 65);
-    }
+
+    int y = p ? static_cast<int>((p->height() - h) / 2) : 0;
+    int x = p ? static_cast<int>((p->width() - 360) / 2) : 0;
+
+    Instance()->setGeometry(x, y, 360, h);
 
     Instance()->ShowAnimation();
 }

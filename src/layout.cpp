@@ -37,7 +37,10 @@ std::vector<QString> lezgianLanguagePackDynamic = {
     "Къавкьаздин Алпандин Лезги чlалал гьелелиг дегиш айиз жезвач",
     "Программа Лезги чlалал дегиш хьана",
     "Программа Урус чlалал дегиш хьана",
-    "Программа Английский чlалал дегиш хьана"
+    "Программа Английский чlалал дегиш хьана",
+    "Программа ислемишиз башламишталди pandoc ва гьакlни адах галай шейэр эцигун лазим я. Эцигун патал герек команда квегай сазламишунрин кьвед лагьай чарчиз гьахьна копия айиз жеда.",
+    "Хьурай",
+    "Мад къалур хъийимир"
 };
 
 std::vector<QString> russianLanguagePackDynamic = {
@@ -58,10 +61,10 @@ std::vector<QString> russianLanguagePackDynamic = {
     "Вы переключились на светлую тему",
     "Вы переключились на тёмную тему",
     "Не удалось создать временный файл для записи.",
-    "Что-то пошло не так:\nПосмотрите на содержимое файла",
+    "Что-то пошло не так:\nПосмотрите на содержимое файла ",
     ".log, Если у вас нет такого файла, убедитесь, что у вас установлена ​​утилита pandoc.",
     "Успешно. Созданы файлы:\n-",
-    "Если в полученном PDF-файле обнаружены ошибки, полный журнал преобразования можно просмотреть в этом файле.log.",
+    "Если в полученном PDF-файле обнаружены ошибки, полный журнал преобразования можно просмотреть в этом файле .log.",
     "Не удалось создать временный файл для записи.",
     "Что-то пошло не так:\nУбедитесь, что у вас установлена ​​утилита pandoc.\nУстановить: ",
     "Успешно. Созданы файлы:\n-",
@@ -69,7 +72,10 @@ std::vector<QString> russianLanguagePackDynamic = {
     "Перевод на \"Лезгинский (Кавказская Албания)\" временно недоступен",
     "Вы переключились на Лезгинский язык",
     "Вы переключились на Русский язык",
-    "Вы переключились на Английский язык"
+    "Вы переключились на Английский язык",
+    "Прежде чем начать пользоваться программой необходимо установить утилиту pandoc, а также некоторые его модули. Команду для скачивания можно будет скопировать в настройках в первом разделе.",
+    "ОК",
+    "Больше не показывать"
 };
 
 std::vector<QString> englishLanguagePackDynamic = {
@@ -90,7 +96,7 @@ std::vector<QString> englishLanguagePackDynamic = {
     "Switched to light theme",
     "Switched to dark theme",
     "Failed to create temporary file for writing",
-    "Something went wrong:\nLook at the contents of the file",
+    "Something went wrong:\nLook at the contents of the file ",
     ".log, If you don't have such a file, make sure you have the pandoc utility installed.",
     "Success. Files created:\n-",
     "If there is something wrong with the resulting .pdf file, the entire conversion log can be viewed in the .log file.",
@@ -101,7 +107,10 @@ std::vector<QString> englishLanguagePackDynamic = {
     "Translation into \"Lezgian (Caucasian Albania)\" is temporarily unavailable.",
     "Switched to Lezgian language",
     "Switched to Russian language",
-    "Switched to English"
+    "Switched to English",
+    "Before you start using the program, you need to install the Pandoc utility and some of its modules. You can copy the download command from the first section of the settings.",
+    "OK",
+    "Do not show again"
 };
 
 std::vector<QString> lezgianLanguagePack = {
@@ -116,10 +125,10 @@ std::vector<QString> lezgianLanguagePack = {
     "Файлдин тlвар кхихь",
     "Сазламишунар",
     "LaTeX ва MarkDown форматриз дегишарзавай программа",
-    "Программади ислемишзава pandoc лугьудай утилита LaTeX ва MarkDown форматар PDF лугьудай, регьятдиз кlелиз жедай,\nформатдиз элкъуьруьн патал. Программа ибарат авур кхьинар MIT лугьдай эхтиярдик акатхава. Гзаф гьа эхтиярдикая\nквегай пуд лагьай чарчел кlелиз жеда. Ислемишиз башламишталди pandoc, ва гьакlни адахъ галай шейэр, аватlа килигун\nлазим я. Авачиз хьаитlа квегай абур эцигиз жеда герек команда bash-да кхьена, тек са Ubuntu-дилай хьаи дистрибутивриз.\n\nsudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex \nfonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y\n\nКоманда квегай копия айиз жеда кlаник квай \"Копия авун\" кнопкадал элисна",
+    "Программади ислемишзава pandoc лугьудай утилита LaTeX ва MarkDown форматар PDF лугьудай, регьятдиз\nкlелиз жедай, форматдиз элкъуьруьн патал. Программа ибарат авур кхьинар MIT лугьдай эхтиярдик акатхава.\nГзаф гьа эхтиярдикая квегай пуд лагьай чарчел кlелиз жеда. Ислемишиз башламишталди pandoc,\nва гьакlни адахъ галай шейэр, аватlа килигун лазим я. Авачиз хьаитlа квегай абур эцигиз\nжеда герек команда bash-да кхьена, тек са Ubuntu-дилай хьаи дистрибутивриз.\n\nsudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex \nfonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y\n\nКоманда квегай копия айиз жеда кlаник квай \"Копия авун\" кнопкадал элисна",
     "Копия авун",
-    "Цlйий вилер эцигун",
-    "И сефер программа цlийи чlаларал давамар авуна:\nЛезги, Урус ва Инглис чlалар.",
+    "Цlийи вилер аватlа килигун",
+    "И сеферда программада авай акъа жезвай дакlарин\nгlалатlар дуьзар авуна.",
     "MIT Эхтияр",
     "MIT Эхтияр",
     "<a href=\"https://github.com/ueberdosis/pandoc/blob/main/LICENSE.md\"> Pandoc эхтияр</a>",
@@ -148,8 +157,8 @@ std::vector<QString> russianLanguagePack = {
     "Конвертер для LaTeX и MarkDown",
     "Эта программа использует утилиту pandoc для преобразования кодов LaTeX и MarkDown в читаемый формат PDF.\nИсходный код программы защищен лицензией MIT. Более подробную информацию можно найти на третьей вкладке.\nПрежде чем начать, убедитесь, что вы загрузили утилиту pandoc и её модули.\nВы можете загрузить их, введя соответствующую команду в bash для дистрибутивов на основе Ubuntu.\n\nsudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex \nfonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y\n\nКоманду можно скопировать, нажав на кнопку \"Скопировать\" снизу.",
     "Скопировать",
-    "Загрузить обновление",
-    "В этой версии была добавлена поддержка разных языков:\nЛезгинский, Русский и Анлийский языки.",
+    "Проверить на наличие обновлений",
+    "В этой версии была исправлена ​​проблема с отображением\nвсплывающих подсказок и диалоговых окон в различных окнах.",
     "Лицензия MIT",
     "Лицензия MIT",
     "<a href=\"https://github.com/ueberdosis/pandoc/blob/main/LICENSE.md\"> Лицензия на Pandoc</a>",
@@ -178,8 +187,8 @@ std::vector<QString> englishLanguagePack = {
     "LaTeX & MarkDown Converter",
     "This program uses the pandoc utility to convert LaTeX and MarkDown codes into readable PDF format.\nThe program's source code is protected by the MIT license; more details can be found in the third tab.\nBefore you begin, make sure that you have downloaded the pandoc utility and its modules.\nYou can download them by entering the appropriate command in bash for Ubuntu-based distributions.\n\nsudo apt install pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex \nfonts-dejavu fonts-dejavu-core fonts-liberation texlive-lang-cyrillic texlive-full -y\n\nThe command can be copied to the clipboard by clicking the \"Copy\" button below.",
     "Copy",
-    "Load update",
-    "Support for multiple languages ​​has been added to this version:\nLezgian, Russian, and English.",
+    "Check for updates",
+    "In this version an issue with the display of tooltips\nand dialogs across different windows was fixed.",
     "MIT License",
     "MIT License",
     "<a href=\"https://github.com/ueberdosis/pandoc/blob/main/LICENSE.md\"> Pandoc License</a>",
